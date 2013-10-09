@@ -1,0 +1,4 @@
+*.swo
+*.swp
+Procfile
+.DS_Store

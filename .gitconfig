@@ -1,0 +1,11 @@
+[user]
+	name = Richard Bishop
+	email = richard_bishop@intuit.com
+[core]
+	excludesfile = /Users/rbishop2/.gitignore
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[filter "trimWhitespace"]
+	clean = git-stripspace
