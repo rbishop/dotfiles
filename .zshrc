@@ -48,4 +48,3 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:/usr/local/bin:/Users/rbishop2/.bin:/Users/rbishop2/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-cd ~/code/live_community
