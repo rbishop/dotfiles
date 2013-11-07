@@ -2,3 +2,5 @@
 *.swp
 Procfile
 .DS_Store
+.irbrc
+.pryrc
