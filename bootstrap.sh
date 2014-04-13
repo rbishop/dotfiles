@@ -5,6 +5,7 @@ git pull origin master
 function doIt() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" -av --no-perms . ~
+	while read -r line; do git clone $line ~/.vim/bundle; done; < vim-bundles.txt;
 	source ~/.bash_profile
 }
 
