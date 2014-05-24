@@ -5,6 +5,8 @@ filetype plugin indent on
 set ts=2 sw=2 expandtab
 colorscheme molokai
 set number
+set autowriteall
+:au FocusLost * :wa
 
 set cursorline
 hi CursorLine cterm=NONE ctermbg=235
