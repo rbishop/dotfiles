@@ -2,7 +2,7 @@
 	name = Richard Bishop
 	email = rbishop87@gmail.com
 [core]
-	excludesfile = /home/rb/.gitignore
+	excludesfile = /Users/rb/.gitignore
 [color]
   branch = auto
   diff = auto

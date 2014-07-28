@@ -7,6 +7,7 @@ git@github.com:tpope/vim-endwise.git
 git@github.com:tpope/vim-haml.git
 git@github.com:tpope/vim-rails.git
 git@github.com:tpope/vim-sensible.git
+git@github.com:tpope/vim-vinegar.git
 git@github.com:vim-ruby/vim-ruby.git
 git@github.com:vim-scripts/Rename.git
 git@github.com:wting/rust.vim.git
