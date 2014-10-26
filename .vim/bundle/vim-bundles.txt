@@ -6,6 +6,7 @@ git@github.com:pangloss/vim-javascript.git
 git@github.com:tpope/vim-bundler.git
 git@github.com:tpope/vim-endwise.git
 git@github.com:jimenezrick/vimerl.git
+git@github.com:jnwhiteh/vim-golang.git
 git@github.com:tpope/vim-haml.git
 git@github.com:tpope/vim-rails.git
 git@github.com:tpope/vim-sensible.git
