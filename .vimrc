@@ -14,6 +14,9 @@ set cursorcolumn
 hi CursorColumn cterm=NONE ctermbg=235
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
+autocmd Filetype go setlocal ts=4 sts=4 sw=4
+autocmd InsertLeave * if expand('%') != '' | update | endif
+
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
