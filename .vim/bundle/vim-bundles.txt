@@ -18,3 +18,4 @@ git@github.com:tpope/vim-vinegar.git
 git@github.com:vim-ruby/vim-ruby.git
 git@github.com:vim-scripts/Rename.git
 git@github.com:wting/rust.vim.git
+git@github.com:chase/vim-ansible-yaml.git
