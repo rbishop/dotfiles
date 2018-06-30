@@ -1,11 +1,10 @@
 https://github.com/Elzair/vim-line-numbers.git
-https://github.com/artur-shaik/vim-javacomplete2.git
 https://github.com/cypok/vim-sml.git
-https://github.com/derekwyatt/vim-scala.git
 https://github.com/ekalinin/Dockerfile.vim.git
 https://github.com/elixir-lang/vim-elixir.git
 https://github.com/ervandew/supertab.git
 https://github.com/fatih/vim-go.git
+https://github.com/jakwings/vim-pony.git
 https://github.com/jimenezrick/vimerl.git
 https://github.com/keith/swift.vim.git
 https://github.com/leafgarland/typescript-vim.git
