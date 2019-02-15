@@ -16,3 +16,4 @@ https://github.com/tpope/vim-vinegar.git
 https://github.com/vim-ruby/vim-ruby.git
 https://github.com/vim-scripts/Rename.git
 https://github.com/wincent/command-t.git
+https://github.com/ziglang/zig.vim.git
