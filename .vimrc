@@ -3,7 +3,7 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 set ts=2 sw=2 expandtab
-colorscheme molokai
+colorscheme Halflife
 set number
 set autowriteall
 :au FocusLost * :wa
