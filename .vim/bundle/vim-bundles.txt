@@ -6,9 +6,7 @@ https://github.com/ervandew/supertab.git
 https://github.com/fatih/vim-go.git
 https://github.com/jakwings/vim-pony.git
 https://github.com/jimenezrick/vimerl.git
-https://github.com/keith/swift.vim.git
-https://github.com/leafgarland/typescript-vim.git
-https://github.com/pangloss/vim-javascript.git
+https://github.com/scrooloose/nerdtree.git
 https://github.com/tpope/vim-endwise.git
 https://github.com/tpope/vim-rails.git
 https://github.com/tpope/vim-sensible.git
