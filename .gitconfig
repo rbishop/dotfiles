@@ -1,11 +1,11 @@
 [user]
-	name = Richard Bishop
-	email = richard@rubiquity.com
+  name = Richard Bishop
+  email = richard@rubiquity.com
 [core]
-	excludesfile = /Users/rb/.gitignore
+  excludesfile = ~/.gitignore
 [color]
   branch = auto
   diff = auto
   status = auto
 [filter "trimWhitespace"]
-	clean = git-stripspace
+  clean = git-stripspace
