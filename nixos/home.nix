@@ -8,7 +8,7 @@ let
     nativeBuildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/spotify \
-        --add-flags "--force-device-scale-factor=1.75"
+        --add-flags "--force-device-scale-factor=2"
     '';
   };
 
@@ -16,25 +16,38 @@ in
 
 { # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
   nixpkgs.config.allowUnfree = true;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "rb";
   home.homeDirectory = "/home/rb";
+  home.file.".icons/default" = {
+    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
+  };
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
+    XCURSOR_THEME = "Vanilla-DMZ";
+    XCURSOR_SIZE = 64;
   };
+
+  xsession.pointerCursor = {
+    name = "Vanilla-DMZ";
+    package = pkgs.vanilla-dmz;
+    size = 64;
+  };
+
+  gtk.enable = true;
 
   programs.alacritty = {
     enable = true;
     settings = {
       window.startup_mode = "Maximized";
       scrolling.history = 10000;
+      live_config_reload = true;
 
       font = {
         size = 14.0;
@@ -45,6 +58,11 @@ in
         program = "alacritty";
         args = [ "-e" "zsh" ];
       };
+
+      key_bindings = [
+        { key = "C"; mods = "Control|Shift"; action = "Copy"; }
+        { key = "V"; mods = "Control|Shift"; action = "Paste"; }
+      ];
     };
   };
 
@@ -53,8 +71,8 @@ in
     autocd = true;
     prezto.enable = true;
 
-    loginExtra = ''
-      if [ "$(tty)" == "/dev/tty1" ]; then
+    initExtraFirst = ''
+      if [ "$(tty)" = "/dev/tty1" ]; then
         exec sway
       fi
     '';
@@ -100,9 +118,20 @@ in
     userEmail = "richard@rubiquity.com";
   };
 
+  programs.mpv = {
+    enable = true;
+    config = {
+      gpu-context = "wayland";
+      vo="gpu";
+      hwdec="vaapi";
+    };
+  };
+
+  programs.fzf.enable = true;
+
   programs.waybar = {
     enable = true;
-    #systemd.enable = true;
+    systemd.enable = true;
 
     settings = [{
       layer = "bottom";
@@ -111,33 +140,59 @@ in
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "network" "cpu" "memory" "temperature" "backlight" "clock" "tray" ];
+      modules-right = [ "network" "pulseaudio" "cpu" "temperature" "backlight" "clock"  ];
       modules = {
-        "cpu" = {
-          format = "{usage}% ";
-          tooltip = false;
+        "network" = {
+          interval = 5;
+          interface = "enp7s0";
+          format-ethernet = "  {ipaddr}/{cidr}";
+          format-wifi = "  {essid}   {signalStrength}";
+          tooltip = true;
+          tooltip-format = ''
+            {ifname}
+            {ipaddr}/{cidr}
+             {bandwidthDownBits}
+             {bandwidthUpBits}'';
         };
 
-        "memory" = {
-          format = "{}% ";
+        "pulseaudio" = {
+          format = "{volume}% {icon}";
+          format-bluetooth = "sup";
+          format-muted = "Muted ";
+          format-icons = {
+            default = ["" "" ""];
+          };
+          on-click = "pavucontrol";
+          scroll-step = 5.0;
+          tooltip = true;
+        };
+
+        "cpu" = {
+          format = "{usage}% ";
+          tooltip = true;
         };
 
         "temperature" = {
+          interval = 5;
           hwmon-path = "/sys/class/hwmon/hwmon4/temp2_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
-          format-icons = ["" "" ""];
+          format-icons = [ "" "" "" "" "" ];
         };
 
         "backlight" = {
           format = "{percent}% {icon}";
-          format-icons =  ["" ""];
+          format-icons =  [ "" "" "" "" ];
         };
 
-        "clock" = {};
-
-        "tray" = {
-          spacing = 10;
+        "clock" = {
+          format = "<b>{:%-I:%M %p}</b>";
+          today-format = "<b><u>{}</u></b>";
+          tooltip = true;
+          tooltip-format = ''
+            <big>{:%a, %B %e %Y}</big>
+            <tt><small>{calendar}</small></tt>
+          '';
         };
       };
     }];
@@ -147,9 +202,11 @@ in
     enable = true;
     xwayland = false;
     wrapperFeatures.gtk = true;
+    systemdIntegration = true;#
     config = {
-      terminal = "alacritty";
       modifier = "Mod4";
+      terminal = "alacritty";
+      menu = "dmenu-wl_run -i";
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
       ];
@@ -169,10 +226,10 @@ in
       output HDMI-A-1 mode 3840x2160@60Hz scale 2
       output DP-1 mode 3840x2160@60Hz scale 2
 
-      # Copy and paste functionality
-      bindsym Control_L+Shift_L+c exec wl-copy
-      bindsym Control+Shift+v exec wl-paste
-
+      # Copy and Paste
+      #bindsym Control+C exec wl-copy
+      #bindsym Control+V exec wl-paste
+      
       # Monitor brightness
       bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
       bindsym XF86MonBrightnessUp exec brightnessctl set +5%
@@ -183,14 +240,25 @@ in
       bindsym XF86AudioNext exec playerctl next
 
       # Volume toggles
-      #bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-      #bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-      #bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-      bindsym XF86AudioMute exec amixer set Master toggle
-      bindsym XF86AudioLowerVolume exec amixer set Master 10%-
-      bindsym XF86AudioRaiseVolume exec amixer set Master 10%+
+      bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+      bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% 
+      bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+      # Lock Button
+      bindsym Mod4+Control+q exec swaylock
+
+      set $locker 'swaylock --daemonize --ignore-empty-password --color 1d2021'
+      exec swayidle -w \
+        timeout 300 $locker \
+        timeout 330 'swaymsg "output * dpms off"' \
+        resume 'swaymsg "output * dpms on"' \
+        timeout 30 'if pgrep swaylock; then swaymsg "output * dpms off"; fi' \
+        resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
+        before-sleep $locker
     '';
   };
+
+  services.blueman-applet.enable = true;
 
   home.packages = with pkgs; [
     # Sway tools
@@ -198,66 +266,40 @@ in
     swayidle
     wl-clipboard
     mako
-    alacritty
-    dmenu
+    dmenu-wayland
     wob
-    wev # for getting key codes
+    wev # for getting key codes on Wayland
     playerctl # prev/play/next control of audio
-    brightnessctl
-
-    firefox
-    chromium
+    brightnessctl # Monitor brightness
+    gtk3
 
     # Linux hardware tools
     lshw
     dmidecode # BIOS
     libva-utils # GPU Hardware Acceleration
     glxinfo
-
-    gnome3.geary # email
     vulkan-tools
     lm_sensors
 
     # Useful utilities
     unzip
     parted
+    jq
     pavucontrol
     transmission # torrents
 
     # Creature comforts
+    alacritty
+    firefox-wayland
+    chromium
+    gnome3.geary # email
     spotify-4k
-    typora
+    #typora
     zoom-us
     htop
-    fzf
     ffmpeg
+    ltunify # Logitech Unifying Receiver
   ];
-
-  programs.firefox = {
-    enable = true;
-    #package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-    #  forceWayland = true;
-    #};
-  };
-
-  programs.mpv = {
-    enable = true;
-    config = {
-      gpu-context = "wayland";
-      vo="gpu";
-      hwdec="vaapi";
-    };
-  };
-
-  # TODO: Setup dbus sockets that mpris needs
-  #systemd.user.services.mpris-proxy = {
-  #  Unit.Description = "mpris-proxy";
-  #  Unit.After = [ "network.target" "sound.target" ];
-  #  Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-  #  Install.WantedBy = [ "default.target" ];
-  #};
-
-  #services.blueman-applet.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

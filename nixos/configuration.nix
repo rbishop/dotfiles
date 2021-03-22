@@ -22,9 +22,6 @@
     cpuFreqGovernor = "ondemand";
   };
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
@@ -32,6 +29,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
+  networking.hostName = "";
   networking.useNetworkd = true;
   networking.interfaces.enp7s0.useDHCP = true;
   #networking.interfaces.wlp6s0.useDHCP = true;
@@ -54,13 +52,6 @@
     keyMap = "us";
   };
 
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
-  # services.blueman.enable = true;
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Enable sound.
   sound.enable = true;
 
@@ -80,6 +71,7 @@
     usbutils
     pciutils
     bluez-tools
+    pulseaudio
   ];
 
   fonts.fonts = with pkgs; [
@@ -90,28 +82,19 @@
 
   environment.shells = [ pkgs.zsh ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
   programs.sway.enable = true;
-
   programs.zsh.enable = true;
+  programs.ssh.startAgent = true;
+  programs.dconf.enable = true; # Required for Geary to work
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
     authorizedKeysFiles = [ ".ssh/authorized_keys" ];
   };
 
-  # Required for Geary to work
-  programs.dconf.enable = true;
+  # Required for Geary
   services.gnome3 = {
     gnome-keyring.enable = true;
     gnome-online-accounts.enable = true;
@@ -128,15 +111,31 @@
     };
   };
 
+  services.blueman.enable = true;
+
+  services.dbus = {
+    enable = true;
+    packages = with pkgs; [ gnome3.dconf ];
+  };
+
+  # Enable CUPS to print documents.
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.canon-cups-ufr2 ];
+  };
+
+  # Mostly used for printer discovery
+  services.avahi.enable = true;
+
   xdg = {
     portal = {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
       ];
-      #gtkUsePortal = true;
     };
   };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
