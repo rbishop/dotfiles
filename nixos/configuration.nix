@@ -72,6 +72,7 @@
     pciutils
     bluez-tools
     pulseaudio
+    gnome3.adwaita-icon-theme
   ];
 
   fonts.fonts = with pkgs; [

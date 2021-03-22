@@ -38,18 +38,16 @@ in
     MOZ_ENABLE_WAYLAND = 1;
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
-    XCURSOR_THEME = "Vanilla-DMZ";
-    XCURSOR_SIZE = 64;
   };
 
   home.file.".icons/default" = {
-    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
+    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA";
   };
 
   xsession.pointerCursor = {
-    name = "Vanilla-DMZ";
+    name = "Vanilla-DMZ-AA";
     package = pkgs.vanilla-dmz;
-    size = 64;
+    size = 48;
   };
 
   gtk.enable = true;
