@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  # Spotify to pass a command-line flag to force better scaling.
+  # Wrap Spotify to force better scaling on HiDPI
   spotify-4k = pkgs.symlinkJoin {
     name = "spotify";
     paths = [ pkgs.spotify ];
@@ -9,6 +9,17 @@ let
     postBuild = ''
       wrapProgram $out/bin/spotify \
         --add-flags "--force-device-scale-factor=2"
+    '';
+  };
+
+  # Wrap Chromium to enable Wayland and Hardware Acceleration
+  chromium-gpu = pkgs.symlinkJoin {
+    name = "chromium";
+    paths = [ pkgs.chromium ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/chromium \
+        --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,VaapiVideoDecoder --ozone-platform=wayland --use-gl=egl --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy"
     '';
   };
 
@@ -22,9 +33,6 @@ in
   # paths it should manage.
   home.username = "rb";
   home.homeDirectory = "/home/rb";
-  home.file.".icons/default" = {
-    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
-  };
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
@@ -32,6 +40,10 @@ in
     XDG_SESSION_TYPE = "wayland";
     XCURSOR_THEME = "Vanilla-DMZ";
     XCURSOR_SIZE = 64;
+  };
+
+  home.file.".icons/default" = {
+    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
   };
 
   xsession.pointerCursor = {
@@ -163,6 +175,7 @@ in
             default = ["" "" ""];
           };
           on-click = "pavucontrol";
+          on-click-right = "blueman-manager";
           scroll-step = 5.0;
           tooltip = true;
         };
@@ -207,9 +220,7 @@ in
       modifier = "Mod4";
       terminal = "alacritty";
       menu = "dmenu-wl_run -i";
-      bars = [
-        { command = "${pkgs.waybar}/bin/waybar"; }
-      ];
+      bars = []; # systemd manages waybar
     };
     extraConfig = ''
       input "type:keyboard" {
@@ -226,13 +237,11 @@ in
       output HDMI-A-1 mode 3840x2160@60Hz scale 2
       output DP-1 mode 3840x2160@60Hz scale 2
 
-      # Copy and Paste
-      #bindsym Control+C exec wl-copy
-      #bindsym Control+V exec wl-paste
-      
+      exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
+
       # Monitor brightness
-      bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-      bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+      bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
+      bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
 
       # Audio playback controls
       bindsym XF86AudioPrev exec playerctl previous
@@ -240,33 +249,57 @@ in
       bindsym XF86AudioNext exec playerctl next
 
       # Volume toggles
-      bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-      bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% 
-      bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+      bindsym XF86AudioMute exec pamixer --toggle-mute && ( pamixer --get-mute && echo 0 > $SWAYSOCK.wob ) || pamixer --get-volume > $SWAYSOCK.wob
+      bindsym XF86AudioLowerVolume exec pamixer -ud 5 && pamixer --get-volume > $SWAYSOCK.wob
+      bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
+
+      set $lock_path '~/.config/sway/lock.sh'
+      set $idle_path '~/.config/sway/idle.sh'
 
       # Lock Button
-      bindsym Mod4+Control+q exec swaylock
+      bindsym Mod4+Control+q exec $lock_path
 
-      set $locker 'swaylock --daemonize --ignore-empty-password --color 1d2021'
-      exec swayidle -w \
-        timeout 300 $locker \
-        timeout 330 'swaymsg "output * dpms off"' \
-        resume 'swaymsg "output * dpms on"' \
-        timeout 30 'if pgrep swaylock; then swaymsg "output * dpms off"; fi' \
-        resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
-        before-sleep $locker
+      exec $idle_path
     '';
   };
 
   services.blueman-applet.enable = true;
 
+  home.file.".config/sway/lock.sh" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+
+      swaylock --daemonize \
+        --ignore-empty-password \
+        --image ~/Downloads/nix-wallpaper-mosaic-blue.png \
+        --color 1d2021
+    '';
+  };
+
+  home.file.".config/sway/idle.sh" =  {
+    executable = true;
+    text = ''
+      #!/bin/sh
+
+      exec swayidle -w \
+        timeout 300 ~/.config/sway/lock.sh \
+        timeout 310 'swaymsg "output * dpms off"' \
+        resume 'swaymsg "output * dpms on"' \
+        timeout 5 'if pgrep swaylock; then swaymsg "output * dpms off" && playerctl pause; fi' \
+        resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
+        before-sleep ~/.config/sway/lock.sh; playerctl pause
+    '';
+  };
+
   home.packages = with pkgs; [
     # Sway tools
+    dmenu-wayland
     swaylock
     swayidle
     wl-clipboard
     mako
-    dmenu-wayland
+    flameshot
     wob
     wev # for getting key codes on Wayland
     playerctl # prev/play/next control of audio
@@ -287,11 +320,12 @@ in
     jq
     pavucontrol
     transmission # torrents
+    pamixer
 
     # Creature comforts
     alacritty
     firefox-wayland
-    chromium
+    chromium-gpu
     gnome3.geary # email
     spotify-4k
     #typora

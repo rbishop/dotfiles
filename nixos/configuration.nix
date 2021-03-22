@@ -29,10 +29,10 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.hostName = "";
+  networking.hostName = "montrachet";
   networking.useNetworkd = true;
   networking.interfaces.enp7s0.useDHCP = true;
-  #networking.interfaces.wlp6s0.useDHCP = true;
+  networking.interfaces.wlp6s0.useDHCP = false; # Don't use WiFi
 
   # Use iwd for managing wireless networks
   networking.wireless.iwd.enable = true;
@@ -88,6 +88,12 @@
   programs.dconf.enable = true; # Required for Geary to work
 
   # List services that you want to enable:
+  services.resolved = {
+    enable = true;
+    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+    dnssec = "allow-downgrade";
+  };
+
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
@@ -112,6 +118,8 @@
   };
 
   services.blueman.enable = true;
+
+  services.upower.enable = true;
 
   services.dbus = {
     enable = true;
