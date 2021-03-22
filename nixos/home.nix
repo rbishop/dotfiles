@@ -72,6 +72,10 @@ in
       key_bindings = [
         { key = "C"; mods = "Control|Shift"; action = "Copy"; }
         { key = "V"; mods = "Control|Shift"; action = "Paste"; }
+        { key = "PageUp"; action = "ScrollPageUp"; }
+        { key = "PageDown"; action = "ScrollPageDown"; }
+        { key = "Home"; action = "ScrollToTop"; }
+        { key = "End"; action = "ScrollToBottom"; }
       ];
     };
   };
