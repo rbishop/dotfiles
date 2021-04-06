@@ -38,6 +38,7 @@ in
     MOZ_ENABLE_WAYLAND = 1;
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
+    VDPAU_DRIVER = "radeonsi";
   };
 
   home.file.".icons/default" = {
@@ -95,6 +96,11 @@ in
   programs.vim = { 
     enable = true;
 
+    plugins = with pkgs.vimPlugins; [
+      supertab nerdtree vim-endwise vinegar sensible Rename
+      command-t vim-go zig-vim vim-plug
+    ];
+
     settings = {
       expandtab = true;
       number = true;
@@ -104,6 +110,7 @@ in
 
     extraConfig = ''
       syntax on
+      filetype plugin indent on
       set autowriteall
       set splitright
       :au FocusLost * :wa
@@ -112,6 +119,24 @@ in
       hi CursorLine cterm=NONE ctermbg=235
       set cursorcolumn
       hi CursorColumn cterm=NONE ctermbg=235
+      nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+      autocmd InsertLeave * if expand('%') != ''\'''\' | update | endif
+      autocmd StdinReadPre * let s:std_in=1
+
+      if $COLORTERM == 'gnome-terminal'
+          set t_Co=256
+      endif
+
+      let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+      if empty(glob(data_dir . '/autoload/plug.vim'))
+        silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      endif
+      call plug#begin("~/.vim/plugged")
+
+      Plug 'bakpakin/janet.vim'
+      call plug#end()
     '';
   };
   
@@ -274,8 +299,7 @@ in
 
       swaylock --daemonize \
         --ignore-empty-password \
-        --image ~/Downloads/nix-wallpaper-mosaic-blue.png \
-        --color 1d2021
+        --image ~/Downloads/nix-wallpaper-mosaic-blue.png
     '';
   };
 
@@ -288,7 +312,7 @@ in
         timeout 300 ~/.config/sway/lock.sh \
         timeout 310 'swaymsg "output * dpms off"' \
         resume 'swaymsg "output * dpms on"' \
-        timeout 5 'if pgrep swaylock; then swaymsg "output * dpms off" && playerctl pause; fi' \
+        timeout 15 'if pgrep swaylock; then swaymsg "output * dpms off" && playerctl pause; fi' \
         resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
         before-sleep ~/.config/sway/lock.sh; playerctl pause
     '';
@@ -301,7 +325,6 @@ in
     swayidle
     wl-clipboard
     mako
-    flameshot
     wob
     wev # for getting key codes on Wayland
     playerctl # prev/play/next control of audio
@@ -312,6 +335,7 @@ in
     lshw
     dmidecode # BIOS
     libva-utils # GPU Hardware Acceleration
+    vdpauinfo
     glxinfo
     vulkan-tools
     lm_sensors
@@ -320,8 +344,9 @@ in
     unzip
     parted
     jq
+    wget
     pavucontrol
-    transmission # torrents
+    transmission-gtk # torrents
     pamixer
 
     # Creature comforts
@@ -330,11 +355,13 @@ in
     chromium-gpu
     gnome3.geary # email
     spotify-4k
-    #typora
+    ghostwriter
     zoom-us
     htop
     ffmpeg
+    radeontop
     ltunify # Logitech Unifying Receiver
+    _1password-gui
   ];
 
   # This value determines the Home Manager release that your

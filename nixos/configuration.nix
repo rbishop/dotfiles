@@ -72,6 +72,7 @@
     pciutils
     bluez-tools
     pulseaudio
+    libvdpau
     gnome3.adwaita-icon-theme
   ];
 

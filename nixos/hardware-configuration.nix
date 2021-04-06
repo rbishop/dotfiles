@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "ddcci" "ddcci_backlight" ];
+  boot.kernelModules = [ "dm-snapshot" "kvm-amd" "k10temp" "nct6775" "ddcci" "ddcci_backlight" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
 
   boot.initrd.luks.devices.main =
@@ -38,12 +38,7 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ 
-      amdvlk 
-      rocm-opencl-icd 
-      rocm-opencl-runtime
-      mesa
-    ];
+    extraPackages = with pkgs; [ amdvlk libvdpau-va-gl mesa libva-full ];
   };
 
   hardware.bluetooth = {
