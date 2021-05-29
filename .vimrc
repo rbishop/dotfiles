@@ -7,6 +7,7 @@ colorscheme halflife
 set number
 set autowriteall
 set splitright
+set relativenumber
 :au FocusLost * :wa
 
 set cursorline

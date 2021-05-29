@@ -214,7 +214,7 @@ in
 
         "temperature" = {
           interval = 5;
-          hwmon-path = "/sys/class/hwmon/hwmon4/temp2_input";
+          hwmon-path = "/sys/class/hwmon/hwmon3/temp2_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
           format-icons = [ "" "" "" "" "" ];
@@ -242,7 +242,7 @@ in
     enable = true;
     xwayland = false;
     wrapperFeatures.gtk = true;
-    systemdIntegration = true;#
+    systemdIntegration = true;
     config = {
       modifier = "Mod4";
       terminal = "alacritty";
@@ -287,6 +287,22 @@ in
       bindsym Mod4+Control+q exec $lock_path
 
       exec $idle_path
+
+      workspace 1
+
+      exec alacritty
+
+      workspace 2
+
+      exec firefox
+
+      workspace 3
+
+      exec geary
+
+      workspace 4
+
+      exec spotify
     '';
   };
 
@@ -341,12 +357,13 @@ in
     lm_sensors
 
     # Useful utilities
+    slurp
+    grim
     unzip
     parted
     jq
     wget
     pavucontrol
-    transmission-gtk # torrents
     pamixer
 
     # Creature comforts
