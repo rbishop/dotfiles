@@ -60,6 +60,10 @@ in
       scrolling.history = 10000;
       live_config_reload = true;
 
+      env = {
+        TERM = "xterm-256color";
+      };
+
       font = {
         size = 14.0;
         use_thin_strokes = true;
@@ -95,48 +99,9 @@ in
 
   programs.vim = { 
     enable = true;
-
-    plugins = with pkgs.vimPlugins; [
-      supertab nerdtree vim-endwise vinegar sensible Rename
-      command-t vim-go zig-vim vim-plug
-    ];
-
-    settings = {
-      expandtab = true;
-      number = true;
-      shiftwidth = 4;
-      tabstop = 4;
-    };
-
+    plugins = with pkgs.vimPlugins; [ vim-plug ];
     extraConfig = ''
-      syntax on
-      filetype plugin indent on
-      set autowriteall
-      set splitright
-      :au FocusLost * :wa
-
-      set cursorline
-      hi CursorLine cterm=NONE ctermbg=235
-      set cursorcolumn
-      hi CursorColumn cterm=NONE ctermbg=235
-      nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-
-      autocmd InsertLeave * if expand('%') != ''\'''\' | update | endif
-      autocmd StdinReadPre * let s:std_in=1
-
-      if $COLORTERM == 'gnome-terminal'
-          set t_Co=256
-      endif
-
-      let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-      if empty(glob(data_dir . '/autoload/plug.vim'))
-        silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-      endif
-      call plug#begin("~/.vim/plugged")
-
-      Plug 'bakpakin/janet.vim'
-      call plug#end()
+      ${builtins.readFile ../../.vimrc}
     '';
   };
   
@@ -221,8 +186,8 @@ in
         };
 
         "backlight" = {
-          format = "{percent}% {icon}";
-          format-icons =  [ "" "" "" "" ];
+          format = "{icon}";
+          format-icons =  [ "" "" "" "" ];
         };
 
         "clock" = {
@@ -365,6 +330,7 @@ in
     wget
     pavucontrol
     pamixer
+    ctags
 
     # Creature comforts
     alacritty
@@ -379,6 +345,7 @@ in
     radeontop
     ltunify # Logitech Unifying Receiver
     _1password-gui
+    transmission-gtk
   ];
 
   # This value determines the Home Manager release that your

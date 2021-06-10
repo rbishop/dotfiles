@@ -147,8 +147,8 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 80 443 22 51416 ];
+  # networking.firewall.allowedUDPPorts = [ ];
   networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default
