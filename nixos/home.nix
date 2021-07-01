@@ -90,7 +90,7 @@ in
     autocd = true;
     prezto.enable = true;
 
-    initExtraFirst = ''
+    initExtra = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
         exec sway
       fi
@@ -135,7 +135,6 @@ in
 
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
 
     settings = [{
       layer = "bottom";
@@ -207,12 +206,11 @@ in
     enable = true;
     xwayland = false;
     wrapperFeatures.gtk = true;
-    systemdIntegration = true;
     config = {
       modifier = "Mod4";
       terminal = "alacritty";
       menu = "dmenu-wl_run -i";
-      bars = []; # systemd manages waybar
+      bars = [];
     };
     extraConfig = ''
       input "type:keyboard" {
@@ -224,6 +222,10 @@ in
 
       input "type:pointer" {
         natural_scroll enabled
+      }
+
+      bar {
+        swaybar_command waybar
       }
 
       output HDMI-A-1 mode 3840x2160@60Hz scale 2
