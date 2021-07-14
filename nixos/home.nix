@@ -51,7 +51,14 @@ in
     size = 48;
   };
 
-  gtk.enable = true;
+  fonts.fontconfig.enable = true;
+
+  gtk = {
+    enable = true;
+    font.name = "Roboto";
+    font.size = 12;
+    theme.name = "Adwaita";
+  };
 
   programs.alacritty = {
     enable = true;
@@ -253,23 +260,23 @@ in
       # Lock Button
       bindsym Mod4+Control+q exec $lock_path
 
+      # Clear Mako notifications
+      bindsym Mod4+c exec makoctl dismiss --all
+
       exec $idle_path
 
-      workspace 1
+      workspace 3
+      exec geary
 
+      workspace 1
+      exec swaymsg "layout tabbed"
+      exec swaymsg "split horizontal"
+      exec alacritty
       exec alacritty
 
       workspace 2
-
+      workspace_layout tabbed
       exec firefox
-
-      workspace 3
-
-      exec geary
-
-      workspace 4
-
-      exec spotify
     '';
   };
 
@@ -307,12 +314,12 @@ in
     swaylock
     swayidle
     wl-clipboard
-    mako
-    wob
+    mako # notifications
+    wob # volume/brightness bar
     wev # for getting key codes on Wayland
     playerctl # prev/play/next control of audio
     brightnessctl # Monitor brightness
-    gtk3
+    gtk4
 
     # Linux hardware tools
     lshw
@@ -334,20 +341,27 @@ in
     pamixer
     ctags
 
+    # Fonts
+    roboto
+    roboto-mono
+    libertine
+    font-awesome
+    gnome.adwaita-icon-theme
+
     # Creature comforts
     alacritty
     firefox-wayland
     chromium-gpu
-    gnome3.geary # email
+    gnome.geary # email
+    gnome.nautilus # file explorer
     spotify-4k
-    ghostwriter
+    apostrophe # markdown editor
     zoom-us
     htop
     ffmpeg
     radeontop
     ltunify # Logitech Unifying Receiver
     _1password-gui
-    transmission-gtk
   ];
 
   # This value determines the Home Manager release that your

@@ -73,13 +73,6 @@
     bluez-tools
     pulseaudio
     libvdpau
-    gnome3.adwaita-icon-theme
-  ];
-
-  fonts.fonts = with pkgs; [
-    roboto 
-    roboto-mono
-    font-awesome
   ];
 
   environment.shells = [ pkgs.zsh ];
@@ -125,7 +118,7 @@
 
   services.dbus = {
     enable = true;
-    packages = with pkgs; [ gnome3.dconf ];
+    packages = with pkgs; [ gnome.dconf ];
   };
 
   # Enable CUPS to print documents.
