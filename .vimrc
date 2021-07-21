@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'ayu-theme/ayu-vim'
-Plug 'preservim/nerdtree'
 Plug 'tpope/vim-endwise'
 Plug 'danro/rename.vim'
 Plug 'ziglang/zig.vim'
@@ -25,6 +24,18 @@ set splitright
 set relativenumber
 :au FocusLost * :wa
 
+let g:netrw_banner = 0
+let g:netrw_browse_split = 2
+let g:netrw_liststyle = 3
+let g:netrw_altv = 1
+let g:netrw_preview = 1
+let g:netrw_winsize = -30
+
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Lexplore
+augroup END
+
 set cursorline
 hi CursorLine cterm=NONE ctermbg=235
 set cursorcolumn
@@ -34,7 +45,6 @@ nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 autocmd Filetype go setlocal ts=4 sts=4 sw=4
 autocmd InsertLeave * if expand('%') != '' | update | endif
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -42,5 +52,4 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-let NERDTreeShowHidden=1
 set t_Co=256
