@@ -154,9 +154,9 @@ in
       modules = {
         "network" = {
           interval = 5;
-          interface = "enp7s0";
+          interface = "wlan0";
           format-ethernet = "  {ipaddr}/{cidr}";
-          format-wifi = "  {essid}   {signalStrength}";
+          format-wifi = "  {essid}    {signalStrength}";
           tooltip = true;
           tooltip-format = ''
             {ifname}
@@ -167,8 +167,9 @@ in
 
         "pulseaudio" = {
           format = "{volume}% {icon}";
-          format-bluetooth = "sup";
           format-muted = "Muted ";
+          format-bluetooth = " {volume}% {icon}";
+          format-bluetooth-muted = "Muted ";
           format-icons = {
             default = ["" "" ""];
           };
@@ -270,9 +271,9 @@ in
 
       workspace 1
       exec swaymsg "layout tabbed"
+      exec alacritty
       exec swaymsg "split horizontal"
-      exec alacritty
-      exec alacritty
+      exec com.github.babluboy.bookworm
 
       workspace 2
       workspace_layout tabbed
@@ -362,6 +363,9 @@ in
     radeontop
     ltunify # Logitech Unifying Receiver
     _1password-gui
+    transmission-gtk
+    foliate # ePub reader
+    bookworm
   ];
 
   # This value determines the Home Manager release that your

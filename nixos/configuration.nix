@@ -31,8 +31,8 @@
   networking.useDHCP = false;
   networking.hostName = "montrachet";
   networking.useNetworkd = true;
-  networking.interfaces.enp7s0.useDHCP = true;
-  networking.interfaces.wlp6s0.useDHCP = false; # Don't use WiFi
+  # networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
+  networking.interfaces.wlp6s0.useDHCP = true;
 
   # Use iwd for managing wireless networks
   networking.wireless.iwd.enable = true;
@@ -89,6 +89,11 @@
     dnssec = "allow-downgrade";
   };
 
+  services.logind.extraConfig = ''
+    IdleAction=suspend-then-hibernate
+    IdleActionSec=10min
+  '';
+
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
@@ -140,8 +145,9 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 22 51416 ];
-  # networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedTCPPorts = [ 80 443 22 9556 51416 ];
+  networking.firewall.allowedUDPPorts = [ 9556 ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
   networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default
