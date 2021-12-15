@@ -10,8 +10,12 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "ddcci" "ddcci_backlight" ];
+  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
+  boot.extraModprobeConfig = ''
+    options ddcci dyndbg delay=400
+    options ddcci_backlight dyndbg
+  '';
 
   boot.initrd.luks.devices.main =
     { device = "/dev/disk/by-partuuid/0d2db233-2104-49a6-a9ef-0f5748fe9989";
@@ -47,4 +51,6 @@
     powerOnBoot = true;
     settings.General.Enable = "Source,Sink,Media,Socket";
   };
+
+  hardware.i2c.enable = true;
 }

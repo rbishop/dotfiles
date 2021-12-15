@@ -53,6 +53,8 @@ in
 
   fonts.fontconfig.enable = true;
 
+  services.blueman-applet.enable = true;
+
   gtk = {
     enable = true;
     font.name = "Roboto";
@@ -150,7 +152,7 @@ in
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "network" "pulseaudio" "cpu" "temperature" "backlight" "clock"  ];
+      modules-right = [ "network" "pulseaudio" "cpu" "temperature" "clock"  ];
       modules = {
         "network" = {
           interval = 5;
@@ -186,15 +188,10 @@ in
 
         "temperature" = {
           interval = 5;
-          hwmon-path = "/sys/class/hwmon/hwmon3/temp2_input";
+          hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
           format-icons = [ "" "" "" "" "" ];
-        };
-
-        "backlight" = {
-          format = "{icon}";
-          format-icons =  [ "" "" "" "" ];
         };
 
         "clock" = {
@@ -242,8 +239,8 @@ in
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
       # Monitor brightness
-      bindsym XF86MonBrightnessDown exec brightnessctl set 5%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
-      bindsym XF86MonBrightnessUp exec brightnessctl set +5% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
+      bindsym XF86MonBrightnessDown exec brightnessctl set 10%- | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
+      bindsym XF86MonBrightnessUp exec brightnessctl set +10% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $SWAYSOCK.wob
 
       # Audio playback controls
       bindsym XF86AudioPrev exec playerctl previous
@@ -266,22 +263,17 @@ in
 
       exec $idle_path
 
-      workspace 3
-      exec geary
-
       workspace 1
       exec swaymsg "layout tabbed"
       exec alacritty
       exec swaymsg "split horizontal"
-      exec com.github.babluboy.bookworm
+      exec foliate
 
       workspace 2
       workspace_layout tabbed
       exec firefox
     '';
   };
-
-  services.blueman-applet.enable = true;
 
   home.file.".config/sway/lock.sh" = {
     executable = true;
@@ -302,8 +294,10 @@ in
       exec swayidle -w \
         timeout 300 ~/.config/sway/lock.sh \
         timeout 310 'swaymsg "output * dpms off"' \
+        timeout 600 'systemctl suspend' \
         resume 'swaymsg "output * dpms on"' \
         timeout 15 'if pgrep swaylock; then swaymsg "output * dpms off" && playerctl pause; fi' \
+        timeout 180 'if pgrep swaylock; then systemctl suspend; fi' \
         resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
         before-sleep ~/.config/sway/lock.sh; playerctl pause
     '';
@@ -330,6 +324,7 @@ in
     glxinfo
     vulkan-tools
     lm_sensors
+    guvcview # webcam
 
     # Useful utilities
     slurp
@@ -341,6 +336,8 @@ in
     pavucontrol
     pamixer
     ctags
+    man-pages
+    man-pages-posix
 
     # Fonts
     roboto
@@ -365,7 +362,7 @@ in
     _1password-gui
     transmission-gtk
     foliate # ePub reader
-    bookworm
+    gnome.simple-scan
   ];
 
   # This value determines the Home Manager release that your

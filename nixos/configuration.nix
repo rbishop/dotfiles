@@ -41,6 +41,16 @@
     wifi.backend = "iwd";
   };
 
+  # Open ports in the firewall.
+  networking.firewall.allowedTCPPorts = [ 80 443 22 9556 51416 ];
+  networking.firewall.allowedUDPPorts = [ 9556 ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+  networking.firewall.enable = true;
+
+  documentation.enable = true;
+  documentation.man.enable = true;
+  documentation.dev.enable = true;
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -58,7 +68,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rb = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "sway" "networkmanager" "audio" "video" ];
+    extraGroups = [ "wheel" "sway" "networkmanager" "audio" "video" "i2c" ];
     home = "/home/rb";
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2u1Kf5Ff3OquFfQpIUPk0EEvkLIvy7+f9c9ilVD9P4 rb-mbp "];
@@ -73,6 +83,8 @@
     bluez-tools
     pulseaudio
     libvdpau
+    v4l-utils
+    ddcutil
   ];
 
   environment.shells = [ pkgs.zsh ];
@@ -89,9 +101,10 @@
     dnssec = "allow-downgrade";
   };
 
-  services.logind.extraConfig = ''
-    IdleAction=suspend-then-hibernate
-    IdleActionSec=10min
+  # Udev rules for the Logitech c920 webcam and DDC/CI devices, respectively
+  services.udev.extraRules = ''
+    SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTR{index}=="0", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0892", RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl -d $devnode --set-ctrl=focus_auto=0"
+    SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM*", TAG+="ddcci", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ddcci@$kernel.service"
   '';
 
   services.openssh = {
@@ -135,6 +148,24 @@
   # Mostly used for printer discovery
   services.avahi.enable = true;
 
+  systemd.services."ddcci@" = {
+    enable = true;
+    description = "Force DDCCI to probe after AMDGPU driver is loaded";
+    unitConfig = {
+      After = "graphical.target";
+      Before = "shutdown.target";
+      Conflicts = "shutdown.target";
+    };
+
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = ''
+        ${pkgs.bash}/bin/bash -c 'echo Trying to attach ddcci to %i && success=0 && i=0 && id=$(echo %i | cut -d "-" -f 2) && while ((success < 1)) && ((i++ < 5)); do ${pkgs.ddcutil}/bin/ddcutil getvcp 10 -b $id && { success=1 && echo ddcci 0x37 > /sys/bus/i2c/devices/%i/new_device && echo "ddcci attached to %i"; } || sleep 5; done'
+      '';
+      Restart = "no";
+    };
+  };
+
   xdg = {
     portal = {
       enable = true;
@@ -143,12 +174,6 @@
       ];
     };
   };
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 22 9556 51416 ];
-  networking.firewall.allowedUDPPorts = [ 9556 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
-  networking.firewall.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
