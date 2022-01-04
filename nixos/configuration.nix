@@ -10,6 +10,13 @@
       ./hardware-configuration.nix
     ];
 
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -85,6 +92,7 @@
     libvdpau
     v4l-utils
     ddcutil
+    ntfs3g
   ];
 
   environment.shells = [ pkgs.zsh ];

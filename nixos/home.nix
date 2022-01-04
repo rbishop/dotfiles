@@ -39,6 +39,8 @@ in
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
     VDPAU_DRIVER = "radeonsi";
+    GIT_EDITOR = "vim";
+    BUNDLE_DITOR = "vim";
   };
 
   home.file.".icons/default" = {
@@ -152,10 +154,10 @@ in
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "network" "pulseaudio" "cpu" "temperature" "clock"  ];
+      modules-right = [ "network" "pulseaudio" "memory" "cpu" "temperature" "clock"  ];
       modules = {
         "network" = {
-          interval = 5;
+          interval = 3;
           interface = "wlan0";
           format-ethernet = "  {ipaddr}/{cidr}";
           format-wifi = "  {essid}    {signalStrength}";
@@ -163,6 +165,7 @@ in
           tooltip-format = ''
             {ifname}
             {ipaddr}/{cidr}
+            {signaldBm} db
              {bandwidthDownBits}
              {bandwidthUpBits}'';
         };
@@ -181,13 +184,18 @@ in
           tooltip = true;
         };
 
+        "memory" = {
+          interval = 3;
+          format = "{used:0.1f}G ";
+        };
+
         "cpu" = {
           format = "{usage}% ";
           tooltip = true;
         };
 
         "temperature" = {
-          interval = 5;
+          interval = 3;
           hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
@@ -267,7 +275,7 @@ in
       exec swaymsg "layout tabbed"
       exec alacritty
       exec swaymsg "split horizontal"
-      exec foliate
+      exec alacritty
 
       workspace 2
       workspace_layout tabbed
@@ -360,9 +368,10 @@ in
     radeontop
     ltunify # Logitech Unifying Receiver
     _1password-gui
-    transmission-gtk
     foliate # ePub reader
     gnome.simple-scan
+    gparted
+    transmission-gtk
   ];
 
   # This value determines the Home Manager release that your

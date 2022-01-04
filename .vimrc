@@ -6,8 +6,9 @@ Plug 'danro/rename.vim'
 Plug 'ziglang/zig.vim'
 Plug 'wincent/command-t'
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-vinegar'
 Plug 'ervandew/supertab'
+Plug 'pocke/rbs.vim'
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -17,18 +18,12 @@ colorscheme ayu
 
 syntax on
 filetype plugin indent on
+set t_Co=256
 set ts=2 sw=2 expandtab
 set number
 set autowriteall
 set splitright
 :au FocusLost * :wa
-
-let g:netrw_banner = 0
-let g:netrw_browse_split = 2
-let g:netrw_liststyle = 3
-let g:netrw_altv = 1
-let g:netrw_preview = 1
-let g:netrw_winsize = -30
 
 set cursorline
 hi CursorLine cterm=NONE ctermbg=235
@@ -37,6 +32,7 @@ hi CursorColumn cterm=NONE ctermbg=235
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 autocmd Filetype go setlocal ts=4 sts=4 sw=4
+autocmd Filetype rb setlocal ts=2 sts=2 sw=2
 autocmd InsertLeave * if expand('%') != '' | update | endif
 autocmd StdinReadPre * let s:std_in=1
 
@@ -46,4 +42,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-set t_Co=256
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif

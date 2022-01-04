@@ -36,7 +36,7 @@
   swapDevices = [{ device = "/dev/disk/by-uuid/c41af588-2f60-46d9-8b53-8ab5b05ab767"; }];
 
   hardware.enableAllFirmware = true;
-  hardware.firmware = with pkgs; [ firmwareLinuxNonfree wireless-regdb ];
+  hardware.firmware = [ pkgs.firmwareLinuxNonfree pkgs.wireless-regdb ];
   hardware.enableRedistributableFirmware = true;
   hardware.opengl = {
     enable = true;
