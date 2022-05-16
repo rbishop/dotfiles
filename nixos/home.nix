@@ -1,17 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  # Wrap Spotify to force better scaling on HiDPI
-  spotify-4k = pkgs.symlinkJoin {
-    name = "spotify";
-    paths = [ pkgs.spotify ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/spotify \
-        --add-flags "--force-device-scale-factor=2"
-    '';
-  };
-
   # Wrap Chromium to enable Wayland and Hardware Acceleration
   chromium-gpu = pkgs.symlinkJoin {
     name = "chromium";
@@ -53,6 +42,12 @@ in
     size = 48;
   };
 
+  dconf.settings = {
+    "org/gnome/nautilus" = {
+      remember-recent-files = false;
+    };
+  };
+
   fonts.fontconfig.enable = true;
 
   services.blueman-applet.enable = true;
@@ -76,7 +71,7 @@ in
       };
 
       font = {
-        size = 14.0;
+        size = 12.0;
         use_thin_strokes = true;
       };
 
@@ -151,6 +146,7 @@ in
       layer = "bottom";
       position = "top";
       height = 30;
+      spacing = 4;
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
@@ -241,8 +237,8 @@ in
         swaybar_command waybar
       }
 
-      output HDMI-A-1 mode 3840x2160@60Hz scale 2
-      output DP-1 mode 3840x2160@60Hz scale 2
+      output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
+      output DP-1 mode 3840x2160@59.997Hz scale 2
 
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
@@ -360,9 +356,9 @@ in
     chromium-gpu
     gnome.geary # email
     gnome.nautilus # file explorer
-    spotify-4k
     apostrophe # markdown editor
     zoom-us
+    #spotify-4k
     htop
     ffmpeg
     radeontop
@@ -371,6 +367,11 @@ in
     foliate # ePub reader
     gnome.simple-scan
     gparted
+    transmission-gtk
+    libreoffice
+    rar
+    evince
+    masterpdfeditor4
     transmission-gtk
   ];
 

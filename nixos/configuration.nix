@@ -20,7 +20,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -36,11 +36,16 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
+  networking.enableIPv6 = true;
   networking.hostName = "montrachet";
   networking.useNetworkd = true;
-  # networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
+  #networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
   networking.interfaces.wlp6s0.useDHCP = true;
 
+  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
+    "" # clear old command
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --interface wlan0"
+  ];
   # Use iwd for managing wireless networks
   networking.wireless.iwd.enable = true;
   networking.networkmanager = {
@@ -112,8 +117,8 @@
   # Udev rules for the Logitech c920 webcam and DDC/CI devices, respectively
   services.udev.extraRules = ''
     SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTR{index}=="0", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0892", RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl -d $devnode --set-ctrl=focus_auto=0"
-    SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM*", TAG+="ddcci", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ddcci@$kernel.service"
   '';
+  #SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM*", TAG+="ddcci", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ddcci@$kernel.service"
 
   services.openssh = {
     enable = true;
@@ -144,7 +149,7 @@
 
   services.dbus = {
     enable = true;
-    packages = with pkgs; [ gnome.dconf ];
+    packages = with pkgs; [ dconf ];
   };
 
   # Enable CUPS to print documents.
@@ -156,29 +161,30 @@
   # Mostly used for printer discovery
   services.avahi.enable = true;
 
-  systemd.services."ddcci@" = {
-    enable = true;
-    description = "Force DDCCI to probe after AMDGPU driver is loaded";
-    unitConfig = {
-      After = "graphical.target";
-      Before = "shutdown.target";
-      Conflicts = "shutdown.target";
-    };
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.bash}/bin/bash -c 'echo Trying to attach ddcci to %i && success=0 && i=0 && id=$(echo %i | cut -d "-" -f 2) && while ((success < 1)) && ((i++ < 5)); do ${pkgs.ddcutil}/bin/ddcutil getvcp 10 -b $id && { success=1 && echo ddcci 0x37 > /sys/bus/i2c/devices/%i/new_device && echo "ddcci attached to %i"; } || sleep 5; done'
-      '';
-      Restart = "no";
-    };
-  };
+#  systemd.services."ddcci@" = {
+#    enable = true;
+#    description = "Force DDCCI to probe after AMDGPU driver is loaded";
+#    unitConfig = {
+#      After = "graphical.target";
+#      Before = "shutdown.target";
+#      Conflicts = "shutdown.target";
+#    };
+#
+#    serviceConfig = {
+#      Type = "oneshot";
+#      ExecStart = ''
+#        ${pkgs.bash}/bin/bash -c 'echo Trying to attach ddcci to %i && success=0 && i=0 && id=$(echo %i | cut -d "-" -f 2) && while ((success < 1)) && ((i++ < 5)); do ${pkgs.ddcutil}/bin/ddcutil getvcp 10 -b $id && { success=1 && echo ddcci 0x37 > /sys/bus/i2c/devices/%i/new_device && echo "ddcci attached to %i"; } || sleep 5; done'
+#      '';
+#      Restart = "no";
+#    };
+#  };
 
   xdg = {
     portal = {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
       ];
     };
   };
