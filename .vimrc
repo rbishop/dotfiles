@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'ayu-theme/ayu-vim'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
 Plug 'danro/rename.vim'
 Plug 'ziglang/zig.vim'
 Plug 'wincent/command-t'
@@ -30,6 +31,7 @@ hi CursorLine cterm=NONE ctermbg=235
 set cursorcolumn
 hi CursorColumn cterm=NONE ctermbg=235
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+map - :Ex<CR>
 
 autocmd Filetype go setlocal ts=4 sts=4 sw=4
 autocmd Filetype rb setlocal ts=2 sts=2 sw=2
