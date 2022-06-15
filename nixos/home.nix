@@ -27,7 +27,7 @@ in
     MOZ_ENABLE_WAYLAND = 1;
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
-    VDPAU_DRIVER = "radeonsi";
+    XDG_RUNTIME_DIR = "/run/user/1000";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
   };
@@ -324,8 +324,6 @@ in
     lshw
     dmidecode # BIOS
     libva-utils # GPU Hardware Acceleration
-    vdpauinfo
-    glxinfo
     vulkan-tools
     lm_sensors
     guvcview # webcam

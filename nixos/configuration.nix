@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ../machines/workstation.nix
     ];
 
   nix = {
@@ -20,7 +20,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_5_17;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -37,26 +36,7 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.enableIPv6 = true;
-  networking.hostName = "montrachet";
   networking.useNetworkd = true;
-  #networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
-  networking.interfaces.wlp6s0.useDHCP = true;
-
-  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
-    "" # clear old command
-    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --interface wlan0"
-  ];
-  # Use iwd for managing wireless networks
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 22 8008 8009 8010 9556 51416 ];
-  networking.firewall.allowedUDPPorts = [ 9556 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 61000; } ];
   networking.firewall.enable = true;
 
   documentation.enable = true;
@@ -77,16 +57,6 @@
   # Enable sound.
   sound.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.rb = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "sway" "networkmanager" "audio" "video" "i2c" ];
-    home = "/home/rb";
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2u1Kf5Ff3OquFfQpIUPk0EEvkLIvy7+f9c9ilVD9P4 rb-mbp "];
-    hashedPassword = "$6$jWajHUuXrf//Yr$K9dMJu.rqT/X3U6Lm8FLBIsZnidMyHukURSwJXmqyFu3V9Aq2PRlf3akLscIfFsAgSNTOw6gZNQyLrObg3Qi./";
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -94,7 +64,6 @@
     pciutils
     bluez-tools
     pulseaudio
-    libvdpau
     v4l-utils
     ddcutil
     ntfs3g
