@@ -20,7 +20,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_5_15;
+  boot.kernelPackages = pkgs.linuxPackages_5_17;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -54,9 +54,9 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 22 9556 51416 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 22 8008 8009 8010 9556 51416 ];
   networking.firewall.allowedUDPPorts = [ 9556 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 61000; } ];
   networking.firewall.enable = true;
 
   documentation.enable = true;

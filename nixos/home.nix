@@ -36,7 +36,7 @@ in
     source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA";
   };
 
-  xsession.pointerCursor = {
+  home.pointerCursor = {
     name = "Vanilla-DMZ-AA";
     package = pkgs.vanilla-dmz;
     size = 48;
@@ -373,6 +373,9 @@ in
     evince
     masterpdfeditor4
     transmission-gtk
+    sysstat
+    vlc
+    go-chromecast
   ];
 
   # This value determines the Home Manager release that your

@@ -10,7 +10,7 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" ];
+  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" "btusb" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
   boot.extraModprobeConfig = ''
     options ddcci dyndbg delay=400
@@ -75,7 +75,6 @@
     enable = true;
     package = pkgs.bluezFull;
     powerOnBoot = true;
-    settings.General.Enable = "Source,Sink,Media,Socket";
   };
 
   hardware.i2c.enable = true;
