@@ -40,14 +40,6 @@
   networking.useNetworkd = true;
   networking.enableIPv6 = true;
 
-#  fonts.fonts = with pkgs; [
-#    open-sans
-#    roboto-mono
-#    source-serif
-#    font-awesome
-#    gnome.adwaita-icon-theme
-#  ];
-
   # Use iwd for managing wireless networks
   # networking.wireless.iwd.enable = true;
   networking.networkmanager.enable = true;

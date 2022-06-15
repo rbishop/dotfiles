@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      <home-manager/nixos>
       ../machines/workstation.nix
     ];
 
@@ -27,6 +28,9 @@
     enable = true;
     cpuFreqGovernor = "ondemand";
   };
+
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";

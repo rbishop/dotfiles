@@ -12,9 +12,27 @@ let
     '';
   };
 
-in
+  slack-hidpi = pkgs.symlinkJoin {
+    name = "slack";
+    paths = [ pkgs.slack ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/slack --add-flags "--force-device-scale-factor=1.5"
+    '';
+  };
 
-{ # Let Home Manager install and manage itself.
+  spotify-hidpi = pkgs.symlinkJoin {
+    name = "spotify";
+    paths = [ pkgs.spotify ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/spotify --add-flags "--force-device-scale-factor=1.5"
+    '';
+  };
+
+in
+{
+  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -28,6 +46,7 @@ in
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
     XDG_RUNTIME_DIR = "/run/user/1000";
+    EDITOR = "vim";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
   };
@@ -54,7 +73,8 @@ in
 
   gtk = {
     enable = true;
-    font.name = "Roboto";
+    font.name = "Open Sans 12";
+    #font.name = "Roboto";
     font.size = 12;
     theme.name = "Adwaita";
   };
@@ -72,7 +92,27 @@ in
 
       font = {
         size = 12.0;
-        use_thin_strokes = true;
+        use_thin_strokes = false;
+
+        normal = {
+          family = "Roboto Mono";
+          style = "regular";
+        };
+
+        bold = {
+          family = "Roboto Mono";
+          style = "regular";
+        };
+
+        italic = {
+          family = "Roboto Mono";
+          style = "regular";
+        };
+
+        bold_italic = {
+          family = "Roboto Mono";
+          style = "regular";
+        };
       };
 
       command = {
@@ -107,7 +147,7 @@ in
     enable = true;
     plugins = with pkgs.vimPlugins; [ vim-plug ];
     extraConfig = ''
-      ${builtins.readFile ../../.vimrc}
+      ${builtins.readFile ../.vimrc}
     '';
   };
   
@@ -118,7 +158,7 @@ in
     historyLimit = 5000;
     keyMode = "vi";
     resizeAmount = 10;
-    shortcut = "a";
+    prefix = "C-Space";
     terminal = "xterm-256color";
   };
 
@@ -150,17 +190,23 @@ in
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "network" "pulseaudio" "memory" "cpu" "temperature" "clock"  ];
+      modules-right = [ "memory" "cpu" "temperature" "network" "pulseaudio" "clock"  ];
       modules = {
         "network" = {
           interval = 3;
           interface = "wlan0";
           format-ethernet = "  {ipaddr}/{cidr}";
-          format-wifi = "  {essid}    {signalStrength}";
+          format-wifi = "";
+          format-disconnected = "";
           tooltip = true;
-          tooltip-format = ''
-            {ifname}
+          tooltip-format-ethernet = ''
             {ipaddr}/{cidr}
+             {bandwidthDownBits}
+             {bandwidthUpBits}'';
+          tooltip-format-wifi = ''
+            {essid} {frequency}Ghz
+            {ipaddr}/{cidr}
+            {signalStrength}   
             {signaldBm} db
              {bandwidthDownBits}
              {bandwidthUpBits}'';
@@ -213,7 +259,7 @@ in
 
   wayland.windowManager.sway = {
     enable = true;
-    xwayland = false;
+    xwayland = true;
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";
@@ -236,6 +282,8 @@ in
       bar {
         swaybar_command waybar
       }
+
+      font pango:Open Sans 12
 
       output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
       output DP-1 mode 3840x2160@59.997Hz scale 2
@@ -307,6 +355,8 @@ in
     '';
   };
 
+  dconf.enable = true;
+
   home.packages = with pkgs; [
     # Sway tools
     dmenu-wayland
@@ -318,7 +368,7 @@ in
     wev # for getting key codes on Wayland
     playerctl # prev/play/next control of audio
     brightnessctl # Monitor brightness
-    gtk4
+    dconf
 
     # Linux hardware tools
     lshw
@@ -342,38 +392,49 @@ in
     man-pages-posix
 
     # Fonts
-    roboto
-    roboto-mono
-    libertine
     font-awesome
     gnome.adwaita-icon-theme
+    helvetica-neue-lt-std
+    liberation_ttf
+    material-design-icons
+    material-icons
+    noto-fonts
+    noto-fonts-emoji
+    open-sans
+    openmoji-color
+    roboto-mono
+    source-serif
 
     # Creature comforts
+    _1password-gui
     alacritty
-    firefox-wayland
+    apostrophe # markdown editor
     chromium-gpu
+    ffmpeg
+    firefox-wayland
+    foliate # ePub reader
     gnome.geary # email
     gnome.nautilus # file explorer
-    apostrophe # markdown editor
-    zoom-us
-    #spotify-4k
-    htop
-    ffmpeg
-    radeontop
-    ltunify # Logitech Unifying Receiver
-    _1password-gui
-    foliate # ePub reader
     gnome.simple-scan
-    gparted
-    transmission-gtk
-    libreoffice
-    rar
+    htop
+    markets
+    ripgrep
+    slack-hidpi
+    spotify-hidpi
+    xwayland
+    zoom-us
+
     evince
-    masterpdfeditor4
-    transmission-gtk
-    sysstat
-    vlc
     go-chromecast
+    gparted
+    libreoffice
+    ltunify # Logitech Unifying Receiver
+    masterpdfeditor4
+    radeontop
+    rar
+    sysstat
+    transmission-gtk
+    vlc
   ];
 
   # This value determines the Home Manager release that your

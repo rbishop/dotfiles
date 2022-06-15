@@ -401,8 +401,6 @@ in
     lshw
     dmidecode # BIOS
     libva-utils # GPU Hardware Acceleration
-    vdpauinfo
-    glxinfo
     vulkan-tools
     lm_sensors
     guvcview # webcam
@@ -421,37 +419,37 @@ in
     man-pages-posix
 
     # Fonts
-    open-sans
-    roboto-mono
-    source-serif
     font-awesome
-    liberation_ttf
-    helvetica-neue-lt-std
     gnome.adwaita-icon-theme
-    openmoji-color
+    helvetica-neue-lt-std
+    liberation_ttf
     material-design-icons
     material-icons
     noto-fonts
     noto-fonts-emoji
+    open-sans
+    openmoji-color
+    roboto-mono
+    source-serif
 
     # Creature comforts
+    _1password-gui
     alacritty
-    firefox-wayland
+    apostrophe # markdown editor
     chromium-gpu
+    ffmpeg
+    firefox-wayland
+    foliate # ePub reader
     gnome.geary # email
     gnome.nautilus # file explorer
-    apostrophe # markdown editor
-    zoom-us
-    htop
-    ffmpeg
-    _1password-gui
-    foliate # ePub reader
     gnome.simple-scan
-    xwayland
+    htop
+    markets
+    ripgrep
     slack-hidpi
     spotify-hidpi
-    ripgrep
-    markets
+    xwayland
+    zoom-us
   ];
 
   # This value determines the Home Manager release that your
