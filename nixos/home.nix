@@ -77,6 +77,17 @@ in
     #font.name = "Roboto";
     font.size = 12;
     theme.name = "Adwaita";
+
+    gtk3.extraConfig = {
+      gtk-recent-files-enabled = "FALSE";
+      gtk-recent-files-limit = 0;
+      gtk-recent-files-max-age = 0;
+    };
+
+    gtk4.extraConfig = {
+      gtk-recent-files-enabled = "FALSE";
+      gtk-recent-files-max-age = 0;
+    };
   };
 
   programs.alacritty = {
@@ -172,8 +183,8 @@ in
     enable = true;
     config = {
       gpu-context = "wayland";
-      vo="gpu";
-      hwdec="vaapi";
+      vo = "gpu";
+      hwdec = "vaapi";
     };
   };
 
@@ -190,12 +201,30 @@ in
 
       modules-left = [ "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
-      modules-right = [ "memory" "cpu" "temperature" "network" "pulseaudio" "clock"  ];
+      modules-right = [ "memory" "cpu" "temperature" "network" "pulseaudio" "idle_inhibitor" "clock"  ];
       modules = {
+        "memory" = {
+          interval = 3;
+          format = "{used:0.1f}G ";
+        };
+
+        "cpu" = {
+          format = "{usage}% ";
+          tooltip = true;
+        };
+
+        "temperature" = {
+          interval = 3;
+          hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
+          critical-threshold = 80;
+          format = "{temperatureC}°C {icon}";
+          format-icons = [ "" "" "" "" "" ];
+        };
+
         "network" = {
           interval = 3;
-          interface = "wlan0";
-          format-ethernet = "  {ipaddr}/{cidr}";
+          interface = "enp7s0";
+          format-ethernet = "";
           format-wifi = "";
           format-disconnected = "";
           tooltip = true;
@@ -226,22 +255,12 @@ in
           tooltip = true;
         };
 
-        "memory" = {
-          interval = 3;
-          format = "{used:0.1f}G ";
-        };
-
-        "cpu" = {
-          format = "{usage}% ";
-          tooltip = true;
-        };
-
-        "temperature" = {
-          interval = 3;
-          hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
-          critical-threshold = 80;
-          format = "{temperatureC}°C {icon}";
-          format-icons = [ "" "" "" "" "" ];
+        "idle_inhibitor" = {
+          format = "{icon}";
+          format-icons = {
+            activated = "";
+            deactivated = "";
+          };
         };
 
         "clock" = {
@@ -343,15 +362,31 @@ in
     text = ''
       #!/bin/sh
 
-      exec swayidle -w \
+      # Intended order of events for handling idle behavior depending on
+      # whether the machine was manually locked or not. Note that the swayidle
+      # script is repetitive due to swayidle's configuration lacking the
+      # ability compose transitions because shorter duration timeouts only
+      # trigger iff the duration is longer than the current highest duration
+      # timeout.
+      #
+      # State | 
+      # ------|----------------------------------------------------------------
+      #       | Lock =====> Display Off ======> Suspend/Sleep
+      # Trans | 
+      #       | Idle ==========================> Lock 
+      # ------|
+      # Time  | 0 ------> 60 ------ 120 ----- 240 ----- 300
+
+      swayidle -w \
+        timeout 60  'if pgrep swaylock > /dev/null; then swaymsg "output * dpms off"; fi' resume 'swaymsg "output * dpms on"' \
+        timeout 120 'if pgrep swaylock > /dev/null; then swaymsg "output * dpms off"; fi' resume 'swaymsg "output * dpms on"' \
+        timeout 240 'if pgrep swaylock > /dev/null; then systemctl suspend; fi' \
         timeout 300 ~/.config/sway/lock.sh \
-        timeout 310 'swaymsg "output * dpms off"' \
-        timeout 600 'systemctl suspend' \
-        resume 'swaymsg "output * dpms on"' \
-        timeout 15 'if pgrep swaylock; then swaymsg "output * dpms off" && playerctl pause; fi' \
-        timeout 180 'if pgrep swaylock; then systemctl suspend; fi' \
-        resume 'if pgrep swaylock; then swaymsg "output * dpms on"; fi' \
-        before-sleep ~/.config/sway/lock.sh; playerctl pause
+        timeout 360 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+        timeout 480 'systemctl suspend' \
+        before-sleep 'swaymsg "output * dpms off"' \
+        before-sleep 'playerctl status --no-messages && playerctl pause --no-messages' \
+        after-resume 'swaymsg "output * dpms on"'
     '';
   };
 
@@ -415,6 +450,7 @@ in
     foliate # ePub reader
     gnome.geary # email
     gnome.nautilus # file explorer
+    cinnamon.nemo
     gnome.simple-scan
     htop
     markets
