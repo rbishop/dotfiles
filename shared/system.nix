@@ -1,16 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      <home-manager/nixos>
-      ../machines/workstation.nix
-    ];
-
   nix = {
     package = pkgs.nixUnstable;
     extraOptions = ''
@@ -18,15 +8,28 @@
     '';
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  powerManagement = {
+  hardware.cpu.amd.updateMicrocode = true;
+  hardware.enableAllFirmware = true;
+  hardware.firmware = [ pkgs.firmwareLinuxNonfree pkgs.wireless-regdb ];
+  hardware.enableRedistributableFirmware = true;
+  hardware.i2c.enable = true;
+  hardware.bluetooth = {
     enable = true;
-    cpuFreqGovernor = "ondemand";
+    package = pkgs.bluezFull;
+    powerOnBoot = true;
+  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ amdvlk mesa libvdpau-va-gl libva ];
   };
 
   home-manager.useUserPackages = true;
@@ -42,6 +45,14 @@
   networking.enableIPv6 = true;
   networking.useNetworkd = true;
   networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 80 443 22 5201 6969 8008 8009 8010 9556 51416 ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
+  networking.firewall.allowedUDPPorts = [ 9556 ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 4096; to = 65535; } ];
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   documentation.enable = true;
   documentation.man.enable = true;
@@ -71,6 +82,7 @@
     v4l-utils
     ddcutil
     ntfs3g
+    iptables
   ];
 
   environment.shells = [ pkgs.zsh ];
@@ -134,24 +146,6 @@
   # Mostly used for printer discovery
   services.avahi.enable = true;
 
-#  systemd.services."ddcci@" = {
-#    enable = true;
-#    description = "Force DDCCI to probe after AMDGPU driver is loaded";
-#    unitConfig = {
-#      After = "graphical.target";
-#      Before = "shutdown.target";
-#      Conflicts = "shutdown.target";
-#    };
-#
-#    serviceConfig = {
-#      Type = "oneshot";
-#      ExecStart = ''
-#        ${pkgs.bash}/bin/bash -c 'echo Trying to attach ddcci to %i && success=0 && i=0 && id=$(echo %i | cut -d "-" -f 2) && while ((success < 1)) && ((i++ < 5)); do ${pkgs.ddcutil}/bin/ddcutil getvcp 10 -b $id && { success=1 && echo ddcci 0x37 > /sys/bus/i2c/devices/%i/new_device && echo "ddcci attached to %i"; } || sleep 5; done'
-#      '';
-#      Restart = "no";
-#    };
-#  };
-
   xdg = {
     portal = {
       enable = true;
@@ -161,13 +155,4 @@
       ];
     };
   };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
-
 }
