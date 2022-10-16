@@ -32,17 +32,25 @@
           format-icons = [ "" "" "" "" "" ];
         };
 
-        "network" = {
-          interval = 3;
-          interface = "enp7s0";
+        "network#1" = {
+          interval = 1;
+          interface = "eth0";
           format-ethernet = "";
-          format-wifi = "";
           format-disconnected = "";
           tooltip = true;
           tooltip-format-ethernet = ''
             {ipaddr}/{cidr}
              {bandwidthDownBits}
              {bandwidthUpBits}'';
+        };
+
+        "network#2" = {
+          interval = 1;
+          interface = "wlan0";
+          format-wifi = "";
+          on-click = "if [[ $(nmcli radio wifi) == \"enabled\" ]]; then nmcli radio wifi off; else nmcli radio wifi on; fi";
+          format-disconnected = "";
+          tooltip = true;
           tooltip-format-wifi = ''
             {essid} {frequency}Ghz
             {ipaddr}/{cidr}
@@ -93,7 +101,7 @@
         };
 
         "clock" = {
-          format = "<b>{:%-I:%M %p}</b>";
+          format = "<b>{:%I:%M %p}</b>";
           today-format = "<b><u>{}</u></b>";
           tooltip = true;
           tooltip-format = ''

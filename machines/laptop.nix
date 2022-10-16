@@ -7,7 +7,8 @@ let
   settings = {
     username = "rbishop";
     email = "richard.bishop@crunchydata.com";
-    waybar-order = [ "memory" "cpu" "temperature" "network" "network#2" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
+    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
+    laptop = true;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
 in
@@ -28,7 +29,7 @@ in
     hashedPassword = "$6$jWajHUuXrf//Yr$K9dMJu.rqT/X3U6Lm8FLBIsZnidMyHukURSwJXmqyFu3V9Aq2PRlf3akLscIfFsAgSNTOw6gZNQyLrObg3Qi./";
   };
 
-  home-manager.users.rb = homeConfig;
+  home-manager.users.rbishop = homeConfig;
 
   networking.hostName = "crunchy";
   #networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
@@ -63,33 +64,6 @@ in
   security.pam.services.swaylock = {
     text = ''
       auth include login
-    '';
-  };
-
-  home.file.".config/sway/lock.sh" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-
-      exec swaylock --daemonize \
-        --ignore-empty-password \
-        --color 808080 \
-        --scaling fit \
-        --image ~/.config/sway/crunchy_logo.png
-    '';
-  };
-
-  services.kanshi = {
-    enable = true;
-    extraConfig = ''
-      profile {
-        output "eDP-1" disable
-        output "DP-2" enable mode 3840x2160@59.997Hz position 0,0 scale 2.000000
-      }
-
-      profile {
-        output "eDP-1" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
-      }
     '';
   };
 

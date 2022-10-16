@@ -2,6 +2,29 @@
 
 let
   waybar = import ../shared/waybar.nix { settings = settings; };
+
+  laptopLockScreen = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+
+      exec swaylock --daemonize \
+        --ignore-empty-password \
+        --color 808080 \
+        --scaling fit \
+        --image ~/.config/sway/crunchy_logo.png
+    '';
+  };
+  workstationLockScreen = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+
+      swaylock --daemonize \
+        --ignore-empty-password \
+        --image ~/Downloads/nix-wallpaper-mosaic-blue.png
+    '';
+  };
 in
 {
   imports = [
@@ -16,6 +39,7 @@ in
 
   home.username = settings.username;
   home.homeDirectory = "/home/${settings.username}";
+  home.file.".config/sway/lock.sh" = if settings.laptop then laptopLockScreen else workstationLockScreen;
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
@@ -43,6 +67,20 @@ in
   fonts.fontconfig.enable = true;
 
   services.blueman-applet.enable = true;
+
+  services.kanshi = {
+    enable = true;
+    extraConfig = ''
+      profile {
+        output "eDP-1" disable
+        output "DP-2" enable mode 3840x2160@59.997Hz position 0,0 scale 2.000000
+      }
+
+      profile {
+        output "eDP-1" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
+      }
+    '';
+  };
 
   gtk = {
     enable = true;
@@ -110,17 +148,6 @@ in
 
   programs.fzf.enable = true;
 
-  home.file.".config/sway/lock.sh" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-
-      swaylock --daemonize \
-        --ignore-empty-password \
-        --image ~/Downloads/nix-wallpaper-mosaic-blue.png
-    '';
-  };
-
   home.file.".config/sway/idle.sh" =  {
     executable = true;
     text = ''
@@ -154,7 +181,7 @@ in
     '';
   };
 
-  home.packages = with pkgs; [ 
+  home.packages = with pkgs; [
     ltunify # Logitech Unifying Receiver
     radeontop
     transmission-gtk

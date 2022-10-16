@@ -9,6 +9,7 @@ let
     username = "rb";
     email = "richard@rubiquity.com";
     waybar-order = [ "memory" "cpu" "temperature" "network" "pulseaudio" "idle_inhibitor" "clock" ];
+    laptop = false;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
 in
@@ -63,6 +64,13 @@ in
   #      Restart = "no";
   #    };
   #  };
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ amdvlk mesa libvdpau-va-gl libva ];
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_6_0;
 

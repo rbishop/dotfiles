@@ -13,6 +13,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableAllFirmware = true;
@@ -22,15 +23,8 @@
 
   hardware.bluetooth = {
     enable = true;
-    package = pkgs.bluezFull;
+    package = pkgs.bluez;
     powerOnBoot = true;
-  };
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [ amdvlk mesa libvdpau-va-gl libva ];
   };
 
   home-manager.useUserPackages = true;
@@ -50,9 +44,33 @@
   networking.firewall.allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
   networking.firewall.allowedUDPPorts = [ 9556 ];
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+
+  # Use iwd for managing wireless networks
+  # networking.wireless.iwd.enable = true;
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
+  };
+
+  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
+    "" # clear old command
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
+  ];
+
+  security.pam.services.swaylock = {
+    text = ''
+      auth include login
+    '';
+  };
+
+  # just for the laptop
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchDocked = "ignore";
+    lidSwitchExternalPower = "ignore";
+    extraConfig = ''
+      HandlePowerKey=suspend
+    '';
   };
 
   documentation.enable = true;
