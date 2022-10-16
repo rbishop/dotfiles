@@ -74,6 +74,24 @@
           };
         };
 
+        "battery" = {
+          bat = "BAT0";
+          interval = 60;
+          states = {
+              warning = 30;
+              critical = 15;
+          };
+          format = "{capacity}% {icon}";
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+          tooltip = true;
+        };
+
         "clock" = {
           format = "<b>{:%-I:%M %p}</b>";
           today-format = "<b><u>{}</u></b>";

@@ -19,6 +19,7 @@
   hardware.firmware = [ pkgs.firmwareLinuxNonfree pkgs.wireless-regdb ];
   hardware.enableRedistributableFirmware = true;
   hardware.i2c.enable = true;
+
   hardware.bluetooth = {
     enable = true;
     package = pkgs.bluezFull;
@@ -45,10 +46,10 @@
   networking.enableIPv6 = true;
   networking.useNetworkd = true;
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 443 22 5201 6969 8008 8009 8010 9556 51416 ];
+  networking.firewall.allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
   networking.firewall.allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
   networking.firewall.allowedUDPPorts = [ 9556 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 4096; to = 65535; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
@@ -69,7 +70,6 @@
     keyMap = "us";
   };
 
-  # Enable sound.
   sound.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -82,7 +82,6 @@
     v4l-utils
     ddcutil
     ntfs3g
-    iptables
   ];
 
   environment.shells = [ pkgs.zsh ];

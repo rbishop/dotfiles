@@ -31,9 +31,6 @@ in
 
   home-manager.users.rb = homeConfig;
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
   networking.hostName = "montrachet";
   networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
   networking.interfaces.wlp6s0.useDHCP = true;

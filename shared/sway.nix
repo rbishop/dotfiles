@@ -21,6 +21,11 @@
         natural_scroll enabled
       }
 
+      input "type:touchpad" {
+        natural_scroll enabled
+        tap enabled
+      }
+
       bar {
         swaybar_command waybar
       }
@@ -29,6 +34,9 @@
 
       output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
       output DP-1 mode 3840x2160@59.997Hz scale 2
+      # laptop displays
+      output DP-2 mode 3840x2160@59.997Hz scale 2
+      output eDP-1 mode 1920x1080@60.002Hz scale 1.25
 
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
