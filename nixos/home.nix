@@ -89,13 +89,13 @@ in
     theme.name = "Adwaita";
 
     gtk3.extraConfig = {
-      gtk-recent-files-enabled = "FALSE";
+      gtk-recent-files-enabled = false;
       gtk-recent-files-limit = 0;
       gtk-recent-files-max-age = 0;
     };
 
     gtk4.extraConfig = {
-      gtk-recent-files-enabled = "FALSE";
+      gtk-recent-files-enabled = false;
       gtk-recent-files-max-age = 0;
     };
   };

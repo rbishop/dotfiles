@@ -17,7 +17,7 @@ let
     paths = [ pkgs.slack ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/slack --add-flags "--enable-features=WebRTCPipeWireCapturer,WaylandWindowDecorations --ozone-platform-hint=auto --force-device-scale-factor=2.0"
+      wrapProgram $out/bin/slack --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,WaylandWindowDecorations --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
     '';
   };
 
@@ -26,7 +26,7 @@ let
     paths = [ pkgs.spotify ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/spotify --add-flags "--enable-features=WaylandWindowDecorations --ozone-platform-hint=auto --force-device-scale-factor=2.0"
+      wrapProgram $out/bin/spotify --add-flags "--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
     '';
   };
 in
