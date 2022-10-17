@@ -32,8 +32,8 @@ in
   home-manager.users.rbishop = homeConfig;
 
   networking.hostName = "crunchy";
-  #networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
-  networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
+  networking.interfaces.eth0.useDHCP = lib.mkDefault true;
+  networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
 
   nix.settings.max-jobs = 16;
   powerManagement = {
