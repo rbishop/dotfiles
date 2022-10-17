@@ -8,7 +8,7 @@ let
   settings = {
     username = "rb";
     email = "richard@rubiquity.com";
-    waybar-order = [ "memory" "cpu" "temperature" "network" "pulseaudio" "idle_inhibitor" "clock" ];
+    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "pulseaudio" "idle_inhibitor" "clock" ];
     laptop = false;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
@@ -33,8 +33,8 @@ in
   home-manager.users.rb = homeConfig;
 
   networking.hostName = "montrachet";
-  networking.interfaces.enp7s0.useDHCP = true; # no eth hookup currently
-  networking.interfaces.wlp6s0.useDHCP = true;
+  networking.interfaces.eth0.useDHCP = true;
+  networking.interfaces.wlan0.useDHCP = false;
 
   nix.settings.max-jobs = 24;
   powerManagement = {
@@ -73,7 +73,7 @@ in
   };
 
   boot.kernelPackages = pkgs.linuxPackages_6_0;
-
+  boot.kernelParams = [ "net.ifnames=0" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
   boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" "btusb" ];
