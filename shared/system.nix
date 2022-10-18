@@ -45,7 +45,23 @@
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
   # Use iwd for managing wireless networks
-  # networking.wireless.iwd.enable = true;
+  networking.wireless.iwd = {
+    enable = true;
+
+    settings = {
+      General = {
+        EnableNetworkConfiguration = true;
+        UseDefaultInterface = true;
+        AddressRandomization = "network";
+        RoamRetryInterval = 15;
+      };
+
+      Network = {
+        EnableIPv6 = true;
+      };
+    };
+  };
+
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
