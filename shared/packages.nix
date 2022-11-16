@@ -50,6 +50,7 @@ with pkgs; [
   vulkan-tools
   lm_sensors
   guvcview # webcam
+  glxinfo
 
   # Useful utilities
   ctags

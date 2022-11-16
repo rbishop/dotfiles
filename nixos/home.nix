@@ -73,7 +73,12 @@ in
     extraConfig = ''
       profile {
         output "eDP-1" disable
-        output "DP-2" enable mode 3840x2160@59.997Hz position 0,0 scale 2.000000
+        output "DP-2" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
+      }
+
+      profile {
+        output "eDP-1" disable
+        output "HDMI-A-1" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
       }
 
       profile {
@@ -107,7 +112,11 @@ in
 
     initExtra = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
-        exec sway
+        if [ -e /dev/dri/card1 ]; then
+          WLR_DRM_DEVICES=/dev/dri/card0:/dev/dri/card1 exec sway
+        else
+          exec sway
+        fi
       fi
     '';
   };

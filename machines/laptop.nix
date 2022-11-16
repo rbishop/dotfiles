@@ -45,6 +45,8 @@ in
     }
   ];
 
+  services.hardware.bolt.enable = true;
+
   networking.hostName = "crunchy";
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
   networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
@@ -85,20 +87,27 @@ in
   hardware.opengl = {
     enable = true;
     driSupport = true;
+    driSupport32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
       vaapiVdpau
       libvdpau-va-gl
+      amdvlk
+      mesa
+      libva
     ];
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "amdgpu" "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "amdgpu" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" ];
+  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" "pci=assign-busses,hpbussize=0x33,hpmmiosize=128M,hpmmioprefsize=512M,realloc=on,nocrs" ];
+  boot.extraModprobeConfig = ''
+    options amdgpu aspm=1
+  '';
 
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/b3acb1e2-ed60-4980-b750-82152ed292ea";
