@@ -18,6 +18,7 @@ in
       (modulesPath + "/installer/scan/not-detected.nix")
       <home-manager/nixos>
       ../shared/system.nix
+      ../modules/usb-wakeup-disable.nix
     ];
 
   users.users.rbishop = {
@@ -30,6 +31,14 @@ in
   };
 
   home-manager.users.rbishop = homeConfig;
+
+  hardware.usb.wakeupDisabled = [
+    {
+      vendor = "8087";
+      product = "0026";
+      wakeup = true;
+    }
+  ];
 
   networking.hostName = "crunchy";
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
