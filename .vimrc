@@ -1,15 +1,16 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'ayu-theme/ayu-vim'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-surround'
 Plug 'danro/rename.vim'
-Plug 'ziglang/zig.vim'
-Plug 'wincent/command-t'
-Plug 'tpope/vim-sensible'
 Plug 'ervandew/supertab'
 Plug 'pocke/rbs.vim'
 Plug 'preservim/nerdtree'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'vim-crystal/vim-crystal'
+Plug 'wincent/command-t'
+Plug 'ziglang/zig.vim'
 
 call plug#end()
 
