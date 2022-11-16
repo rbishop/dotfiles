@@ -32,6 +32,11 @@ in
 
   home-manager.users.rbishop = homeConfig;
 
+  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
+    "" # clear old command
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
+  ];
+
   hardware.usb.wakeupDisabled = [
     {
       vendor = "8087";
