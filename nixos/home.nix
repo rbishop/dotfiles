@@ -82,6 +82,11 @@ in
       }
 
       profile {
+        output "eDP-1" disable
+        output "HDMI-A-2" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
+      }
+
+      profile {
         output "eDP-1" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
       }
     '';
