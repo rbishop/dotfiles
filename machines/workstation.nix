@@ -72,6 +72,9 @@ in
     extraPackages = with pkgs; [ amdvlk mesa libvdpau-va-gl libva ];
   };
 
+  # Needed for nixos-generators to cross compile
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   boot.kernelPackages = pkgs.linuxPackages_6_0;
   boot.kernelParams = [ "net.ifnames=0" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
