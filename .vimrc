@@ -4,6 +4,8 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'danro/rename.vim'
 Plug 'ervandew/supertab'
 Plug 'keith/swift.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'pocke/rbs.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-endwise'
@@ -33,6 +35,7 @@ hi CursorLine cterm=NONE ctermbg=235
 set cursorcolumn
 hi CursorColumn cterm=NONE ctermbg=235
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nmap <Leader>f :Files<CR>
 map - :Ex<CR>
 
 autocmd Filetype go setlocal ts=4 sts=4 sw=4

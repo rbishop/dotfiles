@@ -30,6 +30,7 @@ in
     hashedPassword = "$6$jWajHUuXrf//Yr$K9dMJu.rqT/X3U6Lm8FLBIsZnidMyHukURSwJXmqyFu3V9Aq2PRlf3akLscIfFsAgSNTOw6gZNQyLrObg3Qi./";
   };
 
+  nix.settings.trusted-users = [ "root" "rbishop" ];
   home-manager.users.rbishop = homeConfig;
 
   systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [

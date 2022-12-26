@@ -54,6 +54,7 @@ with pkgs; [
 
   # Useful utilities
   ctags
+  cachix
   dig
   gparted
   grim

@@ -5,6 +5,16 @@
     package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
+      keep-derivations = true
+      keep-outputs = true
+      fallback = true
+      warn-dirty = false
+      auto-optimise-store = true
+
+      connect-timeout = 5
+      log-lines = 25
+      min-free = 128000000
+      max-free = 1000000000
     '';
   };
 
