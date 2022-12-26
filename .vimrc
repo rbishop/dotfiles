@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'ayu-theme/ayu-vim'
 Plug 'danro/rename.vim'
 Plug 'ervandew/supertab'
+Plug 'keith/swift.vim'
 Plug 'pocke/rbs.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-endwise'

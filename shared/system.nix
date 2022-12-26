@@ -113,6 +113,7 @@
     bluez-tools
     pulseaudio
     v4l-utils
+    libvdpau
     ddcutil
     ntfs3g
   ];

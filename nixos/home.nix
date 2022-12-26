@@ -154,9 +154,21 @@ in
   programs.mpv = {
     enable = true;
     config = {
+      profile = "gpu-hq";
       gpu-context = "wayland";
       vo = "gpu";
       hwdec = "vaapi";
+      glsl-shader = "~~/shaders/FSRCNNX_x2_16-0-4-1.glsl";
+      #glsl-shader = "~~/shaders/FSRCNNX_x2_8-0-4-1.glsl";
+      ao = "alsa";
+      audio-device = "auto";
+    };
+
+    bindings = {
+      "CTRL+0" = "no-osd change-list glsl-shaders clr \"\"; show-text \"Shaders cleared\"";
+      "CTRL+1" = "no-osd change-list glsl-shaders set \"~~/shaders/FSRCNNX_x2_16-0-4-1.glsl\"; show-text \"FSRCNNX 16\"";
+      "CTRL+2" = "no-osd change-list glsl-shaders set \"~~/shaders/FSRCNNX_x2_8-0-4-1.glsl\"; show-text \"FSRCNNX 8\"";
+      "CTRL+3" = "no-osd change-list glsl-shaders set \"~~/shaders/FSR.glsl\"; show-text \"FSR\"";
     };
   };
 
