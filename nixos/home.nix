@@ -116,9 +116,7 @@ in
   programs.zsh = {
     enable = true;
     autocd = true;
-    prezto.enable = true;
-
-    initExtra = ''
+    loginExtra = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
         if [ -e /dev/dri/card1 ]; then
           WLR_DRM_DEVICES=/dev/dri/card0:/dev/dri/card1 exec sway
@@ -127,6 +125,24 @@ in
         fi
       fi
     '';
+
+    prezto = {
+      enable = true;
+      prompt.theme = "sorin";
+      editor.keymap = "vi";
+      pmodules = [
+        "environment"
+        "terminal"
+        "editor"
+        "history"
+        "directory"
+        "spectrum"
+        "utility"
+        "git"
+        "completion"
+        "prompt"
+      ];
+    };
   };
 
   programs.vim = { 
