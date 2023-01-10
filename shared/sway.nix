@@ -32,6 +32,8 @@
 
       font pango:Open Sans 12
 
+      seat seat0 xcursor_theme Vanilla-DMZ 24
+
       output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
       output DP-1 mode 3840x2160@59.997Hz scale 2
       # laptop displays

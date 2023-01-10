@@ -8,7 +8,7 @@ let
   settings = {
     username = "rb";
     email = "richard@rubiquity.com";
-    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "pulseaudio" "idle_inhibitor" "clock" ];
+    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "clock" ];
     laptop = false;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
@@ -75,12 +75,12 @@ in
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_0;
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
   boot.kernelParams = [ "net.ifnames=0" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
   boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" "btusb" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ ]; # ddcci-driver
   boot.extraModprobeConfig = ''
     options ddcci dyndbg delay=400
     options ddcci_backlight dyndbg

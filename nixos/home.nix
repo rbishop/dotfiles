@@ -59,7 +59,7 @@ in
   home.pointerCursor = {
     name = "Vanilla-DMZ-AA";
     package = pkgs.vanilla-dmz;
-    size = 48;
+    size = 24;
   };
 
   dconf.enable = true;
@@ -187,6 +187,11 @@ in
       # split windows into panes like vim
       bind s split-window -v
       bind v split-pane -h
+
+      bind -r H resize-pane -L
+      bind -r J resize-pane -D
+      bind -r K resize-pane -U
+      bind -r L resize-pane -R
 
       set -g status-style "bg=olive,fg=black"
       set -g window-status-current-style "bg=olive,fg=black,reverse,bold"

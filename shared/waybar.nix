@@ -15,17 +15,18 @@
       modules-right = settings.waybar-order;
       modules = {
         "memory" = {
-          interval = 3;
           format = "{used:0.1f}G ";
+          interval = 2;
         };
 
         "cpu" = {
           format = "{usage}% ";
+          interval = 1;
           tooltip = true;
         };
 
         "temperature" = {
-          interval = 3;
+          interval = 2;
           hwmon-path = "/sys/class/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
@@ -33,7 +34,7 @@
         };
 
         "network#1" = {
-          interval = 1;
+          interval = 2;
           interface = "eth0";
           format-ethernet = "";
           format-disconnected = "";
@@ -60,6 +61,15 @@
              {bandwidthUpBits}'';
         };
 
+        "bluetooth" = {
+          format-connected = "  ";
+          format-on = "  ";
+          format-off = "off";
+          format-disabled = "down";
+          tooltip-format = "{status}";
+          on-click = "blueman-manager";
+        };
+
         "pulseaudio" = {
           format = "{volume}% {icon}";
           format-muted = "Muted ";
@@ -69,7 +79,6 @@
             default = ["" "" ""];
           };
           on-click = "pavucontrol";
-          on-click-right = "blueman-manager";
           scroll-step = 5.0;
           tooltip = true;
         };
