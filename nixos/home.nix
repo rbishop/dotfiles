@@ -53,13 +53,14 @@ in
   };
 
   home.file.".icons/default" = {
-    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA";
+    source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
   };
 
   home.pointerCursor = {
-    name = "Vanilla-DMZ-AA";
+    name = "Vanilla-DMZ";
     package = pkgs.vanilla-dmz;
-    size = 24;
+    size = 32;
+    gtk.enable = true;
   };
 
   dconf.enable = true;
@@ -69,7 +70,7 @@ in
   services.blueman-applet.enable = true;
 
   services.kanshi = {
-    enable = true;
+    enable = settings.laptop;
     extraConfig = ''
       profile {
         output "eDP-1" disable
@@ -102,11 +103,15 @@ in
       gtk-recent-files-enabled = false;
       gtk-recent-files-limit = 0;
       gtk-recent-files-max-age = 0;
+      gtk-cursor-theme-name = "Vanilla-DMZ";
+      gtk-cursor-theme-size = 32;
     };
 
     gtk4.extraConfig = {
       gtk-recent-files-enabled = false;
       gtk-recent-files-max-age = 0;
+      gtk-cursor-theme-name = "Vanilla-DMZ";
+      gtk-cursor-theme-size = 32;
     };
   };
 

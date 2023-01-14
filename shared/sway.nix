@@ -32,10 +32,16 @@
 
       font pango:Open Sans 12
 
-      seat seat0 xcursor_theme Vanilla-DMZ 24
+      seat seat0 xcursor_theme Vanilla-DMZ 32
+
+      exec_always {
+        gsettings set org.gnome.desktop.interface cursor-theme Vanilla-DMZ
+        gsettings set org.gnome.desktop.interface cursor-size 32
+      }
 
       output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
       output DP-1 mode 3840x2160@59.997Hz scale 2
+
       # laptop displays
       output DP-2 mode 3840x2160@59.997Hz scale 2
       output eDP-1 mode 1920x1080@60.002Hz scale 1.25
