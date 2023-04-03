@@ -134,7 +134,7 @@ in
     prezto = {
       enable = true;
       prompt.theme = "sorin";
-      editor.keymap = "vi";
+      editor.keymap = "emacs";
       pmodules = [
         "environment"
         "terminal"

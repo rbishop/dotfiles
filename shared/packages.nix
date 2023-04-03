@@ -56,6 +56,7 @@ with pkgs; [
   ctags
   cachix
   dig
+  fio
   gparted
   grim
   htop
