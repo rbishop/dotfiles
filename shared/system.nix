@@ -150,8 +150,10 @@
 
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
     authorizedKeysFiles = [ ".ssh/authorized_keys" ];
+    settings = {
+      PasswordAuthentication = false;
+    };
   };
 
   # Required for Geary

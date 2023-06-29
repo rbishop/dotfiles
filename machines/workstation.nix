@@ -75,7 +75,7 @@ in
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "net.ifnames=0" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
