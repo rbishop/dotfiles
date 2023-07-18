@@ -73,22 +73,12 @@ in
     enable = settings.laptop;
     extraConfig = ''
       profile {
+        output "eDP-1" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
+      }
+
+      profile {
         output "eDP-1" disable
         output "DP-2" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
-      }
-
-      profile {
-        output "eDP-1" disable
-        output "HDMI-A-1" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
-      }
-
-      profile {
-        output "eDP-1" disable
-        output "HDMI-A-2" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
-      }
-
-      profile {
-        output "eDP-1" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
       }
     '';
   };
@@ -123,11 +113,7 @@ in
     autocd = true;
     loginExtra = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
-        if [ -e /dev/dri/card1 ]; then
-          WLR_DRM_DEVICES=/dev/dri/card0:/dev/dri/card1 exec sway
-        else
-          exec sway
-        fi
+        exec sway
       fi
     '';
 

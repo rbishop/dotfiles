@@ -10,6 +10,7 @@
       fallback = true
       warn-dirty = false
       auto-optimise-store = true
+      max-jobs = auto
 
       connect-timeout = 5
       log-lines = 25
@@ -132,8 +133,17 @@
 
   programs.sway.enable = true;
   programs.zsh.enable = true;
-  programs.ssh.startAgent = true;
   programs.dconf.enable = true; # Required for Geary to work
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      Host *.db.postgresbridge.com *-db.pgbridgedev.com
+        User centos
+        IdentityFile ~/.ssh/crunchy
+        StrictHostKeyChecking accept-new
+        UserKnownHostsFile /dev/null
+    '';
+  };
 
   # List services that you want to enable:
   services.resolved = {

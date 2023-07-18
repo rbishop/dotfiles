@@ -48,9 +48,12 @@
         "network#2" = {
           interval = 1;
           interface = "wlan0";
+          format = "";
           format-wifi = "";
           on-click = "if [[ $(nmcli radio wifi) == \"enabled\" ]]; then nmcli radio wifi off; else nmcli radio wifi on; fi";
           format-disconnected = "";
+          format-disabled = "";
+          format-icons = [];
           tooltip = true;
           tooltip-format-wifi = ''
             {essid} {frequency}Ghz

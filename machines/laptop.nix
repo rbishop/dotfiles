@@ -55,7 +55,7 @@ in
   nix.settings.max-jobs = 16;
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = lib.mkDefault "powersave";
+    cpuFreqGovernor = lib.mkDefault "performance";
   };
 
   environment.systemPackages = with pkgs; [
@@ -93,22 +93,16 @@ in
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
       vaapiVdpau
-      libvdpau-va-gl
-      amdvlk
-      mesa
       libva
     ];
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.availableKernelModules = [ "amdgpu" "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" "amdgpu" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" "pci=assign-busses,hpbussize=0x33,hpmmiosize=128M,hpmmioprefsize=512M,realloc=on,nocrs" ];
-  boot.extraModprobeConfig = ''
-    options amdgpu aspm=1
-  '';
+  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" ];
 
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/b3acb1e2-ed60-4980-b750-82152ed292ea";

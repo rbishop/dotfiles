@@ -39,7 +39,6 @@
         gsettings set org.gnome.desktop.interface cursor-size 32
       }
 
-      output HDMI-A-1 mode 3840x2160@59.997Hz scale 2
       output DP-1 mode 3840x2160@59.997Hz scale 2
 
       # laptop displays
