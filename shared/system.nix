@@ -47,7 +47,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.enableIPv6 = true;
+  networking.enableIPv6 = false; # Spectrum stopped working
   networking.useNetworkd = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
@@ -68,7 +68,7 @@
       };
 
       Network = {
-        EnableIPv6 = true;
+        EnableIPv6 = false;
       };
     };
   };
