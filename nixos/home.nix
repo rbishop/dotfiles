@@ -196,6 +196,11 @@ in
     enable = true;
     userName = "Richard Bishop";
     userEmail = settings.email;
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
   };
 
   programs.mpv = {
