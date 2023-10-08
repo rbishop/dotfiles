@@ -53,6 +53,8 @@ with pkgs; [
   glxinfo
 
   # Useful utilities
+  alloy6
+  tlaplus
   ctags
   cachix
   dig
@@ -100,6 +102,7 @@ with pkgs; [
   foliate # ePub reader
   gnome.geary # email
   gnome.simple-scan
+  thunderbirdPackages.thunderbird-115
   libreoffice
   masterpdfeditor4
   signal-desktop
