@@ -30,16 +30,26 @@ in
     hashedPassword = "$6$jWajHUuXrf//Yr$K9dMJu.rqT/X3U6Lm8FLBIsZnidMyHukURSwJXmqyFu3V9Aq2PRlf3akLscIfFsAgSNTOw6gZNQyLrObg3Qi./";
   };
 
+  environment.sessionVariables = {
+    AMD_VULKAN_ICD = "RADV";
+  };
+
   home-manager.users.rb = homeConfig;
 
   networking.hostName = "montrachet";
   networking.interfaces.eth0.useDHCP = true;
-  networking.interfaces.wlan0.useDHCP = false;
+  networking.interfaces.wlan0.useDHCP = true;
 
   nix.settings.max-jobs = 24;
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
   systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
@@ -69,8 +79,10 @@ in
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ amdvlk mesa libvdpau-va-gl libva ];
+    extraPackages = with pkgs; [ mesa libva ];
   };
+
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

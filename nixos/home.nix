@@ -255,7 +255,7 @@ in
 
   home.packages = with pkgs; [
     ltunify # Logitech Unifying Receiver
-    radeontop
+    amdgpu_top
     transmission-gtk
   ] ++ (import ../shared/packages.nix pkgs);
 
