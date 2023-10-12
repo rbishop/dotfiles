@@ -81,6 +81,7 @@ in
     driSupport32Bit = true;
     extraPackages = with pkgs; [ mesa libva ];
   };
+  hardware.cpu.amd.updateMicrocode = true;
 
   services.xserver.videoDrivers = [ "modesetting" ];
 

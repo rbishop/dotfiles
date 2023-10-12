@@ -95,7 +95,7 @@
         };
 
         "battery" = {
-          bat = "BAT0";
+          bat = "BAT1";
           interval = 60;
           states = {
               warning = 30;

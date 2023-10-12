@@ -25,7 +25,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.cpu.amd.updateMicrocode = true;
   hardware.enableAllFirmware = true;
   hardware.firmware = [ pkgs.firmwareLinuxNonfree pkgs.wireless-regdb ];
   hardware.enableRedistributableFirmware = true;
@@ -86,16 +85,6 @@
   security.pam.services.swaylock = {
     text = ''
       auth include login
-    '';
-  };
-
-  # just for the laptop
-  services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
-    lidSwitchExternalPower = "ignore";
-    extraConfig = ''
-      HandlePowerKey=suspend
     '';
   };
 

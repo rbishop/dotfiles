@@ -96,7 +96,6 @@ with pkgs; [
   authy
   chromium-gpu
   cinnamon.nemo # file explorer
-  evince
   ffmpeg
   firefox-wayland
   foliate # ePub reader
@@ -110,5 +109,6 @@ with pkgs; [
   spotify-hidpi
   vlc
   xwayland
+  zathura
   zoom-us
 ]
