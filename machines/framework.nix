@@ -30,6 +30,7 @@ in
   };
 
   nix.settings.trusted-users = [ "root" "rbishop" ];
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   home-manager.users.rbishop = homeConfig;
 
   systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
@@ -78,6 +79,7 @@ in
     '';
   };
 
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.sensor.iio.enable = true;
   hardware.opengl = {
     enable = true;
@@ -86,19 +88,57 @@ in
     extraPackages = with pkgs; [ mesa libva ];
   };
 
-  hardware.cpu.amd.updateMicrocode = true;
 
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_testing_bcachefs;
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "ahci" "usbhid" "sd_mod" "bcache" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "amdgpu" "k10temp" "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "net.ifnames=0" "nvme.noacpi=1" "acpi_osi=\"!Windows 2020\"" ];
-  #boot.kernelParams = [ "net.ifnames=0" "nvme.noacpi=1" "mem_sleep_default=deep" "acpi_osi=\"!Windows 2020\"" ];
+  boot.kernelParams = [
+    "net.ifnames=0"
+    "nvme.noacpi=1"
+    "mem_sleep_default=deep"
+    "acpi_osi=\"!Windows 2020\""
+    "resume=UUID=cf6c08cd-952e-4e82-8f00-3f60944800e8"
+    "resume_offset=533760"
+  ];
 
+  boot.resumeDevice = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
+      fsType = "btrfs";
+      options = [ "subvol=root" "compress=zstd" ];
+    };
+
+  boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/8631237a-371d-4aba-b7b9-1f058ece349c";
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
+      fsType = "btrfs";
+      options = [ "subvol=home" "compress=zstd" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
+      fsType = "btrfs";
+      options = [ "subvol=nix" "compress=zstd" "noatime" ];
+    };
+
+  fileSystems."/swap" =
+    { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
+      fsType = "btrfs";
+      options = [ "subvol=swap" "noatime" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/C39A-125F";
+      fsType = "vfat";
+    };
+
+  swapDevices = [ { device = "/swap/swapfile"; } ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -107,27 +147,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
-  fileSystems."/" =
-    { device = "/dev/nvme0n1p2";
-      fsType = "bcachefs";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/5FE7-E259";
-      fsType = "vfat";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/82a8638f-4912-4eb7-82e8-14257b2f57c3"; }
-    ];
-
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  #networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
