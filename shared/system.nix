@@ -83,9 +83,9 @@
   ];
 
   security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
+    #text = ''
+    #  auth include login
+    #'';
   };
 
   documentation.enable = true;
