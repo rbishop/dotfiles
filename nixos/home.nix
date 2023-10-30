@@ -11,8 +11,8 @@ let
       exec swaylock --daemonize \
         --ignore-empty-password \
         --color 808080 \
-        --scaling fit \
-        --image ~/.config/sway/crunchy_logo.png
+        --scaling fill \
+        --image ~/Downloads/nixos-wallpaper.png
     '';
   };
   workstationLockScreen = {

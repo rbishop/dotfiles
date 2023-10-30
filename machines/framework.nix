@@ -41,6 +41,11 @@ in
   services.hardware.bolt.enable = false;
   services.fprintd.enable = true;
   services.xserver.videoDrivers = [ "modesetting" ];
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/" ];
+  };
   # Disabled until Framework AMD supports LVFS
   #services.fwupd.enable = true;
 
