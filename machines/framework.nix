@@ -39,7 +39,7 @@ in
   ];
 
   services.hardware.bolt.enable = false;
-  services.fprintd.enable = true;
+  services.fprintd.enable = false;
   services.xserver.videoDrivers = [ "modesetting" ];
   services.btrfs.autoScrub = {
     enable = true;
@@ -79,9 +79,10 @@ in
   };
 
   security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
+    fprintAuth = false;
+    #text = ''
+    #  auth include login
+    #'';
   };
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
