@@ -74,12 +74,15 @@ in
 
   services.logind = {
     lidSwitch = "suspend-then-hibernate";
-    lidSwitchDocked = "ignore";
     lidSwitchExternalPower = "ignore";
     extraConfig = ''
       HandlePowerKey=suspend-then-hibernate
+      IdleAction=suspend-then-hibernate
+      IdleActionSec=2m
     '';
   };
+
+  systemd.sleep.extraConfig = "HibernateDelaySec=2h";
 
   security.pam.services.swaylock = {
     fprintAuth = false;
@@ -101,11 +104,10 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "amdgpu" "k10temp" "kvm-amd" ];
+  boot.kernelModules = [ "amdgpu" "iwlwifi" "k10temp" "kvm-amd" ];
   boot.extraModulePackages = [ ];
   boot.kernelParams = [
     "net.ifnames=0"
-    "nvme.noacpi=1"
     "mem_sleep_default=deep"
     "acpi_osi=\"!Windows 2020\""
     "resume=UUID=cf6c08cd-952e-4e82-8f00-3f60944800e8"
