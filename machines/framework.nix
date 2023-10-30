@@ -47,7 +47,10 @@ in
     fileSystems = [ "/" ];
   };
   # Disabled until Framework AMD supports LVFS
-  #services.fwupd.enable = true;
+  services.fwupd = {
+    enable = true;
+    extraRemotes = [ "lvfs-testing" ];
+  };
 
   networking.hostName = "forester";
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
