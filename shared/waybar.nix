@@ -14,11 +14,6 @@
       modules-center = [ "sway/window" ];
       modules-right = settings.waybar-order;
       modules = {
-        "memory" = {
-          format = "{used:0.1f}G ";
-          interval = 2;
-        };
-
         "cpu" = {
           format = "{usage}% ";
           interval = 1;

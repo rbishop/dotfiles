@@ -7,7 +7,7 @@ let
   settings = {
     username = "rbishop";
     email = "richard.bishop@crunchydata.com";
-    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
+    waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
     laptop = true;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };

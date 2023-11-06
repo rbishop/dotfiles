@@ -8,7 +8,7 @@ let
   settings = {
     username = "rb";
     email = "richard@rubiquity.com";
-    waybar-order = [ "memory" "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "clock" ];
+    waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "clock" ];
     laptop = false;
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
