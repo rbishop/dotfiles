@@ -44,6 +44,11 @@ in
     "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
   ];
 
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=60m
+    SuspendState=mem
+  '';
+
   hardware.usb.wakeupDisabled = [
     {
       vendor = "8087";
@@ -133,7 +138,7 @@ in
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" ];
+  boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" "mem_sleep_default=deep" "resume=/dev/mapper/swap" ];
 
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/b3acb1e2-ed60-4980-b750-82152ed292ea";
