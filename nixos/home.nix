@@ -63,7 +63,13 @@ in
     gtk.enable = true;
   };
 
-  dconf.enable = true;
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/datetime" = { automatic-timezone = true; };
+      "org/gnome/system/location" = { enabled = true; };
+    };
+  };
 
   fonts.fontconfig.enable = true;
 
