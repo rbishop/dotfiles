@@ -110,6 +110,11 @@ in
     '';
   };
 
+  services.fwupd = {
+    enable = true;
+    extraRemotes = [ "lvfs-testing" ];
+  };
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.opengl = {
     enable = true;
