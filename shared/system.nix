@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   nix = {
@@ -40,7 +40,7 @@
   home-manager.useGlobalPkgs = true;
 
   # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = lib.mkForce null; # TZ set by desktop user
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -160,6 +160,8 @@
     gnome-keyring.enable = true;
     gnome-online-accounts.enable = true;
   };
+
+  services.automatic-timezoned.enable = true;
 
   services.pipewire = {
     enable = true;
