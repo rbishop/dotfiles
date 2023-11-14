@@ -112,6 +112,7 @@ in
     "acpi_osi=\"!Windows 2020\""
     "resume=UUID=cf6c08cd-952e-4e82-8f00-3f60944800e8"
     "resume_offset=533760"
+    "amd.sg_display=0"
   ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
