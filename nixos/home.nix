@@ -251,6 +251,7 @@ in
         timeout 480 'systemctl suspend' \
         before-sleep 'swaymsg "output * dpms off"' \
         before-sleep 'playerctl status --no-messages && playerctl pause --no-messages' \
+        before-sleep 'exec ~/.config/sway/lock.sh' \
         after-resume 'swaymsg "output * dpms on"'
     '';
   };
