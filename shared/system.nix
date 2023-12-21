@@ -200,5 +200,6 @@
         xdg-desktop-portal-gtk
       ];
     };
+    mime.enable = true;
   };
 }
