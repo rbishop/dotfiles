@@ -84,6 +84,8 @@ in
 
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  services.fstrim.enable = true;
+
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
@@ -107,6 +109,7 @@ in
     main = {
       device = "/dev/disk/by-partuuid/0d2db233-2104-49a6-a9ef-0f5748fe9989";
       preLVM = true;
+      allowDiscards = true;
     };
 
     media = {
@@ -125,7 +128,7 @@ in
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7944672b-dbfd-48e9-a470-20d7d4ea6ccc";
     fsType = "ext4";
-    options = ["noatime" "nodiratime"];
+    options = [ "rw" "data=ordered" "discard" "noatime" "nodiratime"];
   };
 
   fileSystems."/boot" = {
