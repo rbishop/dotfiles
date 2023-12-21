@@ -121,7 +121,7 @@ in
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
       fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" ];
+      options = [ "subvol=root" "compress=zstd" "discard=async" ];
     };
 
   boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/8631237a-371d-4aba-b7b9-1f058ece349c";
@@ -129,13 +129,13 @@ in
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
       fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" ];
+      options = [ "subvol=home" "compress=zstd" "discard=async" ];
     };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/cf6c08cd-952e-4e82-8f00-3f60944800e8";
       fsType = "btrfs";
-      options = [ "subvol=nix" "compress=zstd" "noatime" ];
+      options = [ "subvol=nix" "compress=zstd" "noatime" "discard=async" ];
     };
 
   fileSystems."/swap" =
