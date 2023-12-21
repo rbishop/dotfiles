@@ -49,7 +49,6 @@ in
     EDITOR = "vim";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
-    LIBVA_DRIVER_NAME = "radeonsi";
   };
 
   home.file.".icons/default" = {

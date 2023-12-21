@@ -32,6 +32,8 @@ in
 
   environment.sessionVariables = {
     AMD_VULKAN_ICD = "RADV";
+    LIBVA_DRIVER_NAME = "radeonsi";
+    VDPAU_DRIVER = "radeonsi";
   };
 
   home-manager.users.rb = homeConfig;
@@ -43,7 +45,7 @@ in
   nix.settings.max-jobs = 24;
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = "ondemand";
+    cpuFreqGovernor = "performance";
   };
 
   programs.steam = {
@@ -79,7 +81,7 @@ in
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ mesa libva ];
+    extraPackages = with pkgs; [ mesa.drivers libva vaapiVdpau ];
   };
 
   services.xserver.videoDrivers = [ "modesetting" ];
