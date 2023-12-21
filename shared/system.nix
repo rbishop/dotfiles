@@ -49,6 +49,7 @@
   networking.useDHCP = false;
   networking.enableIPv6 = false; # Spectrum stopped working
   networking.useNetworkd = true;
+  networking.nameservers = [ "192.168.88.42" "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
   networking.firewall.allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
