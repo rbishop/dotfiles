@@ -259,7 +259,6 @@ in
   home.packages = with pkgs; [
     ltunify # Logitech Unifying Receiver
     amdgpu_top
-    transmission-gtk
   ] ++ (import ../shared/packages.nix pkgs);
 
   # This value determines the Home Manager release that your

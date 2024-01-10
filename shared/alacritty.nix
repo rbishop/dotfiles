@@ -14,7 +14,6 @@
 
       font = {
         size = 12.0;
-        apple_font_smoothing = true;
 
         normal = {
           family = "Roboto Mono";
