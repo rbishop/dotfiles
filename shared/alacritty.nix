@@ -36,12 +36,9 @@
         };
       };
 
-      command = {
-        program = "alacritty";
-        args = [ "-e" "zsh" ];
-      };
+      shell = "zsh";
 
-      key_bindings = [
+      keyboard.bindings = [
         { key = "C"; mods = "Control|Shift"; action = "Copy"; }
         { key = "V"; mods = "Control|Shift"; action = "Paste"; }
         { key = "PageUp"; action = "ScrollPageUp"; }
