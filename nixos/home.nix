@@ -87,7 +87,7 @@ in
 
       profile {
         output "eDP-1" disable
-        output "DP-3" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
+        output "Dell Inc. DELL U2720Q 3J9JV13" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
       }
     '';
   };
