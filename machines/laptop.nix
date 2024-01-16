@@ -66,7 +66,21 @@ in
   nix.settings.max-jobs = 16;
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = lib.mkDefault "performance";
+    cpuFreqGovernor = lib.mkDefault "powersave";
+  };
+
+  services.auto-cpufreq = {
+    enable = true;
+    settings = {
+      battery = {
+         governor = "powersave";
+         turbo = "never";
+      };
+      charger = {
+         governor = "performance";
+         turbo = "auto";
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [
