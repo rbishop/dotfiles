@@ -78,6 +78,10 @@ in
     enable = settings.laptop;
     extraConfig = ''
       profile {
+        output "BOE 0x091D Unknown" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
+      }
+
+      profile {
         output "eDP-1" enable mode 2256x1504@59.999Hz position 0,0 scale 1.50
       }
 
