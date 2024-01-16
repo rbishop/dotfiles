@@ -17,7 +17,7 @@ let
     paths = [ pkgs.slack ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/slack --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,WaylandWindowDecorations --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
+      wrapProgram $out/bin/slack --add-flags "--enable-features=WebRTCPipeWireCapturer --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
     '';
   };
 
