@@ -62,6 +62,17 @@ in
   networking.hostName = "crunchy";
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
   networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
+  networking.extraHosts = ''
+    127.0.0.1 twitter.com
+    127.0.0.1 news.ycombinator.com
+    127.0.0.1 www.reddit.com
+    127.0.0.1 www.patsfans.com
+    127.0.0.1 www.espn.com
+    127.0.0.1 www.totalwine.com
+    127.0.0.1 bevmo.com
+    127.0.0.1 www.linkedin.com
+    127.0.0.1 forum.celticsstrong.com
+  '';
 
   nix.settings.max-jobs = 16;
   powerManagement = {
