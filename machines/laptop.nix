@@ -65,6 +65,7 @@ in
   networking.extraHosts = ''
     127.0.0.1 twitter.com
     127.0.0.1 news.ycombinator.com
+    127.0.0.1 lobste.rs
     127.0.0.1 www.reddit.com
     127.0.0.1 www.patsfans.com
     127.0.0.1 www.espn.com
