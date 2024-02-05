@@ -6,7 +6,7 @@
     config = {
       modifier = "Mod4";
       terminal = "alacritty";
-      menu = "dmenu-wl_run -i";
+      menu = "wofi --allow-images --allow-markup --insensitive --gtk-dark --columns=1 --width=15% --show=drun";
       bars = [];
     };
     extraConfig = ''

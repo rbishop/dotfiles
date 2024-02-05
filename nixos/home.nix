@@ -3,7 +3,7 @@
 let
   waybar = import ../shared/waybar.nix { settings = settings; };
 
-  laptopLockScreen = {
+  crunchyLockScreen = {
     executable = true;
     text = ''
       #!/bin/sh
@@ -11,8 +11,8 @@ let
       exec swaylock --daemonize \
         --ignore-empty-password \
         --color 808080 \
-        --scaling fill \
-        --image ~/Downloads/nixos-wallpaper.png
+        --scaling fit \
+        --image ${../wallpapers/crunchy.png}
     '';
   };
   workstationLockScreen = {
@@ -39,7 +39,7 @@ in
 
   home.username = settings.username;
   home.homeDirectory = "/home/${settings.username}";
-  home.file.".config/sway/lock.sh" = if settings.laptop then laptopLockScreen else workstationLockScreen;
+  home.file.".config/sway/lock.sh" = if settings.laptop then crunchyLockScreen else workstationLockScreen;
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;

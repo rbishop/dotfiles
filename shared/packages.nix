@@ -33,6 +33,7 @@ in
 with pkgs; [
   # Sway tools
   dmenu-wayland
+  wofi
   swaylock
   swayidle
   wl-clipboard
@@ -105,6 +106,7 @@ with pkgs; [
   thunderbirdPackages.thunderbird-115
   libreoffice
   masterpdfeditor4
+  planify
   signal-desktop
   slack-hidpi
   spotify-hidpi
