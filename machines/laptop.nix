@@ -9,9 +9,13 @@ let
     email = "richard.bishop@crunchydata.com";
     waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
     laptop = true;
+    sensors = {
+      cpu_temp = "/sys/devices/platform/coretemp.0/hwmon/";
+      battery = "BAT0";
+    };
   };
-  homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
 
+  homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
 
   unstable = import
     (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)

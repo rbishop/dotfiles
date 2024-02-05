@@ -9,6 +9,10 @@ let
     email = "richard@rubiquity.com";
     waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
     laptop = true;
+    sensors = {
+      cpu_temp = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+      battery = "BAT1";
+    };
   };
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
 in

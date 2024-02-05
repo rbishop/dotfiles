@@ -22,7 +22,7 @@
 
         "temperature" = {
           interval = 2;
-          hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+          hwmon-path-abs = settings.sensors.cpu_temp;
           input-filename = "temp1_input";
           critical-threshold = 80;
           format = "{temperatureC}°C {icon}";
@@ -91,7 +91,7 @@
         };
 
         "battery" = {
-          bat = "BAT1";
+          bat = settings.sensors.battery;
           interval = 60;
           states = {
               warning = 30;
