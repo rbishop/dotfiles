@@ -74,7 +74,7 @@
   };
 
   networking.networkmanager = {
-    enable = true;
+    enable = false;
     wifi.backend = "iwd";
   };
 
@@ -137,9 +137,9 @@
 
   services.resolved = {
     enable = true;
-    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
     dnssec = "allow-downgrade";
     domains = [ "~." ];
+    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
   };
 
   # Udev rules for the Logitech c920 webcam and DDC/CI devices, respectively

@@ -61,6 +61,7 @@ with pkgs; [
   fio
   gparted
   grim
+  iwgtk
   htop
   jq
   man-pages
