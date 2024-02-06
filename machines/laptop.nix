@@ -16,11 +16,6 @@ let
   };
 
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
-
-  unstable = import
-    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
-    # reuse the current configuration
-    { config = config.nixpkgs.config; };
 in
 {
   imports =
@@ -108,7 +103,7 @@ in
     v4l-utils
     ddcutil
     ntfs3g
-    unstable.osquery
+    osquery
   ];
 
   # osquery is denylisted in 23.05 but re-added in unstable
@@ -118,7 +113,7 @@ in
     after = [ "network.target" "syslog.service" ];
     description = "The osquery daemon";
     serviceConfig = {
-      ExecStart = "${unstable.osquery}/bin/osqueryd --flagfile ${config.users.users.rbishop.home}/.config/osqueryd/osqueryd.flags";
+      ExecStart = "${pkgs.osquery}/bin/osqueryd --flagfile ${config.users.users.rbishop.home}/.config/osqueryd/osqueryd.flags";
       PIDFile = "/run/osquery/osqueryd.pid";
       LogsDirectory = "/var/log/osquery";
       StateDirectory = "/var/lib/osquery/osquery.db";
