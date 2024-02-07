@@ -7,6 +7,7 @@ let
   settings = {
     username = "rbishop";
     email = "richard@rubiquity.com";
+    hostName = "forester";
     waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
     laptop = true;
     sensors = {
@@ -56,7 +57,7 @@ in
     extraRemotes = [ "lvfs-testing" ];
   };
 
-  networking.hostName = "forester";
+  networking.hostName = settings.hostName;
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
   networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
 

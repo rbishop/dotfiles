@@ -8,6 +8,7 @@ let
   settings = {
     username = "rb";
     email = "richard@rubiquity.com";
+    hostName = "montrachet";
     waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "clock" ];
     laptop = false;
     sensors = {
@@ -42,7 +43,7 @@ in
 
   home-manager.users.rb = homeConfig;
 
-  networking.hostName = "montrachet";
+  networking.hostName = settings.hostName;
   networking.interfaces.eth0.useDHCP = true;
   networking.interfaces.wlan0.useDHCP = true;
 

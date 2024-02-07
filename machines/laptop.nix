@@ -7,6 +7,7 @@ let
   settings = {
     username = "rbishop";
     email = "richard.bishop@crunchydata.com";
+    hostName = "crunchy";
     waybar-order = [ "cpu" "temperature" "network#1" "network#2" "bluetooth" "pulseaudio" "idle_inhibitor" "battery" "clock" ];
     laptop = true;
     sensors = {
@@ -58,7 +59,7 @@ in
 
   services.hardware.bolt.enable = true;
 
-  networking.hostName = "crunchy";
+  networking.hostName = settings.hostName;
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
   networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
   networking.extraHosts = ''

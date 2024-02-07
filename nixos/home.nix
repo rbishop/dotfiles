@@ -3,27 +3,42 @@
 let
   waybar = import ../shared/waybar.nix { settings = settings; };
 
-  crunchyLockScreen = {
-    executable = true;
-    text = ''
-      #!/bin/sh
+  lockScreens = {
+    crunchy = {
+      executable = true;
+      text = ''
+        #!/bin/sh
 
-      exec swaylock --daemonize \
-        --ignore-empty-password \
-        --color 808080 \
-        --scaling fit \
-        --image ${../wallpapers/crunchy.png}
-    '';
-  };
-  workstationLockScreen = {
-    executable = true;
-    text = ''
-      #!/bin/sh
+        exec swaylock --daemonize \
+          --ignore-empty-password \
+          --color 808080 \
+          --scaling fit \
+          --image ${../wallpapers/crunchy.png}
+      '';
+    };
 
-      swaylock --daemonize \
-        --ignore-empty-password \
-        --image ~/Downloads/nix-wallpaper-mosaic-blue.png
-    '';
+    forester = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+
+        exec swaylock --daemonize \
+          --ignore-empty-password \
+          --scaling fill \
+          --image ${../wallpapers/framework.png}
+      '';
+    };
+
+    workstation = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+
+        swaylock --daemonize \
+          --ignore-empty-password \
+          --image ~/Downloads/nix-wallpaper-mosaic-blue.png
+      '';
+    };
   };
 in
 {
@@ -39,7 +54,7 @@ in
 
   home.username = settings.username;
   home.homeDirectory = "/home/${settings.username}";
-  home.file.".config/sway/lock.sh" = if settings.laptop then crunchyLockScreen else workstationLockScreen;
+  home.file.".config/sway/lock.sh" = lockScreens.${settings.hostName};
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
