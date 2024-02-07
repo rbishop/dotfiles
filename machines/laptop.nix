@@ -39,11 +39,6 @@ in
   nix.settings.trusted-users = [ "root" "rbishop" ];
   home-manager.users.rbishop = homeConfig;
 
-  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
-    "" # clear old command
-    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
-  ];
-
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=60m
     SuspendState=mem

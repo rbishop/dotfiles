@@ -38,11 +38,6 @@ in
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   home-manager.users.rbishop = homeConfig;
 
-  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
-    "" # clear old command
-    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
-  ];
-
   services.hardware.bolt.enable = false;
   services.fprintd.enable = false;
   services.xserver.videoDrivers = [ "modesetting" ];

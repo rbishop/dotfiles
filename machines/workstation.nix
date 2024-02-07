@@ -59,11 +59,6 @@ in
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
-    "" # clear old command
-    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --interface wlan0"
-  ];
-
   #  systemd.services."ddcci@" = {
   #    enable = true;
   #    description = "Force DDCCI to probe after AMDGPU driver is loaded";

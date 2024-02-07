@@ -78,11 +78,6 @@
     wifi.backend = "iwd";
   };
 
-  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
-    "" # clear old command
-    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
-  ];
-
   security.pam.services.swaylock = {
     #text = ''
     #  auth include login
