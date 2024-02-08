@@ -10,10 +10,15 @@
       height = 30;
       spacing = 4;
 
-      modules-left = [ "sway/workspaces" "sway/mode" ];
+      modules-left = [ "custom/power" "sway/workspaces" "sway/mode" ];
       modules-center = [ "sway/window" ];
       modules-right = settings.waybar-order;
       modules = {
+        "custom/power" = {
+          format = "";
+          on-click = "/home/${settings.username}/.config/sway/power.sh";
+        };
+
         "cpu" = {
           format = "{usage}% ";
           interval = 1;
