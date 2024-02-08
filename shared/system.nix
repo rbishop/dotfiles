@@ -78,6 +78,8 @@
     wifi.backend = "iwd";
   };
 
+  systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
+
   security.pam.services.swaylock = {
     #text = ''
     #  auth include login
