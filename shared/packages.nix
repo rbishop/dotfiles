@@ -36,6 +36,7 @@ with pkgs; [
   wofi
   swaylock
   swayidle
+  sway-contrib.grimshot
   wl-clipboard
   mako # notifications
   wob # volume/brightness bar
@@ -59,7 +60,9 @@ with pkgs; [
   ctags
   cachix
   dig
+  file
   fio
+  gnumake
   gparted
   grim
   iwgtk
@@ -110,6 +113,7 @@ with pkgs; [
   signal-desktop
   slack-hidpi
   spotify-hidpi
+  tailscale
   vlc
   xwayland
   zathura

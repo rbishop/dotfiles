@@ -60,6 +60,8 @@ in
     XDG_CURRENT_DESKTOP = "sway"; 
     XDG_SESSION_TYPE = "wayland";
     XDG_RUNTIME_DIR = "/run/user/1000";
+    XDG_SCREENSHOTS_DIR = "/home/${settings.username}/Screenshots";
+    XDG_PICTURES_DIR = "/home/${settings.username}/Screenshots";
     EDITOR = "vim";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
@@ -70,11 +72,10 @@ in
     executable = true;
     source = ../scripts/power.sh;
   };
-  home.file.".config/sway/idle.sh" =  {
+  home.file.".config/sway/idle.sh" = {
     executable = true;
     source = ../scripts/idle.sh;
   };
-
   home.file.".icons/default" = {
     source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
   };

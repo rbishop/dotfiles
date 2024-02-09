@@ -61,6 +61,9 @@
       bindsym XF86AudioLowerVolume exec pamixer -ud 5 && pamixer --get-volume > $SWAYSOCK.wob
       bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
 
+      # Screenshots
+      bindsym Mod4+Ctrl+4 exec grimshot save area
+
       set $lock_path '~/.config/sway/lock.sh'
       set $idle_path '~/.config/sway/idle.sh'
 
