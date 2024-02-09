@@ -229,6 +229,11 @@ in
     enable = true;
     userName = "Richard Bishop";
     userEmail = settings.email;
+    ignores = [
+      "*.swp"
+      "*.swo"
+      "result/"
+    ];
     extraConfig = {
       init = {
         defaultBranch = "main";
