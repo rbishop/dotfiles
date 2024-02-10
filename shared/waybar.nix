@@ -15,7 +15,7 @@
       modules-right = settings.waybar-order;
       modules = {
         "custom/power" = {
-          format = "";
+          format = " ";
           on-click = "/home/${settings.username}/.config/sway/power.sh";
         };
 

@@ -29,14 +29,14 @@ let
       '';
     };
 
-    workstation = {
+    montrachet = {
       executable = true;
       text = ''
         #!/bin/sh
 
         swaylock --daemonize \
           --ignore-empty-password \
-          --image ~/Downloads/nix-wallpaper-mosaic-blue.png
+          --image ${../wallpapers/workstation.png}
       '';
     };
   };

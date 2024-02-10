@@ -13,6 +13,7 @@ let
     laptop = false;
     sensors = {
       cpu_temp = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+      battery = null;
     };
   };
 
