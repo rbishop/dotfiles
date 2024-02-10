@@ -12,21 +12,21 @@ let
     '';
   };
 
-  slack-hidpi = pkgs.symlinkJoin {
+  slack-wayland = pkgs.symlinkJoin {
     name = "slack";
     paths = [ pkgs.slack ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/slack --add-flags "--enable-features=WebRTCPipeWireCapturer --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
+      wrapProgram $out/bin/slack --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland"
     '';
   };
 
-  spotify-hidpi = pkgs.symlinkJoin {
+  spotify-wayland = pkgs.symlinkJoin {
     name = "spotify";
     paths = [ pkgs.spotify ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
-      wrapProgram $out/bin/spotify --add-flags "--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=wayland --force-device-scale-factor=2.0"
+      wrapProgram $out/bin/spotify --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland"
     '';
   };
 in
@@ -111,8 +111,8 @@ with pkgs; [
   masterpdfeditor4
   planify
   signal-desktop
-  slack-hidpi
-  spotify-hidpi
+  slack-wayland
+  spotify-wayland
   tailscale
   vlc
   xwayland
