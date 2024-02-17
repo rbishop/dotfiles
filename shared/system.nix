@@ -116,10 +116,10 @@
     ntfs3g
   ];
 
-  environment.shells = [ pkgs.zsh ];
+  environment.shells = [ pkgs.bash pkgs.fish ];
 
+  programs.fish.enable = true;
   programs.sway.enable = true;
-  programs.zsh.enable = true;
   programs.dconf.enable = true; # Required for Geary to work
   programs.ssh = {
     startAgent = true;

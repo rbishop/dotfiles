@@ -106,6 +106,7 @@ with pkgs; [
   foliate # ePub reader
   gnome.geary # email
   gnome.simple-scan
+  grc # colorizer
   thunderbirdPackages.thunderbird-115
   libreoffice
   masterpdfeditor4

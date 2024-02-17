@@ -36,7 +36,7 @@
         };
       };
 
-      shell = "zsh";
+      shell = "fish";
 
       keyboard.bindings = [
         { key = "C"; mods = "Control|Shift"; action = "Copy"; }

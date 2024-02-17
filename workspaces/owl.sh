@@ -1,4 +1,4 @@
-#1 /bin/zsh
+#1 /bin/bash
 
 if tmux has-session -t owl  2> /dev/null; then
   echo 'attaching'

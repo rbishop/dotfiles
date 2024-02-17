@@ -142,32 +142,15 @@ in
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
-  programs.zsh = {
+  programs.fish = {
     enable = true;
-    autocd = true;
-    loginExtra = ''
-      if [ "$(tty)" = "/dev/tty1" ]; then
-        exec sway
-      fi
-    '';
-
-    prezto = {
-      enable = true;
-      prompt.theme = "sorin";
-      editor.keymap = "emacs";
-      pmodules = [
-        "environment"
-        "terminal"
-        "editor"
-        "history"
-        "directory"
-        "spectrum"
-        "utility"
-        "git"
-        "completion"
-        "prompt"
-      ];
-    };
+    plugins = [
+      { name = "grc"; src = pkgs.fishPlugins.grc; }
+      { name = "done"; src = pkgs.fishPlugins.done; }
+      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish; }
+      { name = "hydro"; src = pkgs.fishPlugins.hydro; }
+      { name = "forgit"; src = pkgs.fishPlugins.forgit; }
+    ];
   };
 
   programs.vim = { 
