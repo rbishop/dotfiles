@@ -151,6 +151,12 @@ in
       { name = "hydro"; src = pkgs.fishPlugins.hydro; }
       { name = "forgit"; src = pkgs.fishPlugins.forgit; }
     ];
+
+    loginShellInit = ''
+      if test (tty) = "/dev/tty1"
+        sway
+      end
+    '';
   };
 
   programs.vim = { 
