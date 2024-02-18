@@ -29,7 +29,7 @@ in
 
   users.users.rb = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "sway" "networkmanager" "audio" "video" "i2c" ];
+    extraGroups = [ "wheel" "sway" "audio" "video" ];
     home = "/home/rb";
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2u1Kf5Ff3OquFfQpIUPk0EEvkLIvy7+f9c9ilVD9P4 rb-mbp "];
@@ -88,6 +88,10 @@ in
 
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  services.udev.extraRules = ''
+    KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+  '';
+
   services.fstrim.enable = true;
 
   # Needed for nixos-generators to cross compile
@@ -97,8 +101,8 @@ in
   boot.kernelParams = [ "net.ifnames=0" ];
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "i2c-dev" "uvcvideo" "btusb" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ ]; # ddcci-driver
+  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "uvcvideo" "btusb" "i2c-dev" "ddcci_backlight" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
   boot.extraModprobeConfig = ''
     options ddcci dyndbg delay=400
     options ddcci_backlight dyndbg

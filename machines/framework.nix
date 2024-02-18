@@ -27,7 +27,7 @@ in
 
   users.users.rbishop = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "sway" "networkmanager" "audio" "video" "i2c" ];
+    extraGroups = [ "wheel" "sway" "audio" "video" "i2c" ];
     home = "/home/rbishop";
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2u1Kf5Ff3OquFfQpIUPk0EEvkLIvy7+f9c9ilVD9P4 rb-mbp "];
