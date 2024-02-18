@@ -184,7 +184,7 @@
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ pkgs.canon-cups-ufr2 ];
+    drivers = [ pkgs.cups-brother-hll2350dw ];
   };
 
   # Mostly used for printer discovery
