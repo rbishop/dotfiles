@@ -94,6 +94,10 @@ with pkgs; [
   roboto-mono
   source-serif
 
+  # Dev Tools
+  git-absorb
+  delta
+
   # Creature comforts
   _1password-gui
   alacritty

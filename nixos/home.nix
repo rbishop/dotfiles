@@ -219,15 +219,75 @@ in
     enable = true;
     userName = "Richard Bishop";
     userEmail = settings.email;
+
     ignores = [
       "*.swp"
       "*.swo"
       "result/"
+      ".irbrc"
+      ".DS_Store"
     ];
+
+    aliases = {
+      recent = "! git branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\" | head -10";
+      smartlog = "log --graph --pretty=format:'commit: %C(bold red)%h%Creset %C(red)[%H]%Creset %C(bold magenta)%d %Creset%ndate: %C(bold yellow)%cd %Creset%C(yellow)%cr%Creset%nauthor: %C(bold blue)%an%Creset %C(blue)[%ae]%Creset%n%C(cyan)%s%n%Creset'";
+    };
+
     extraConfig = {
       init = {
         defaultBranch = "main";
       };
+
+      core = {
+        pager = "delta";
+      };
+
+      color = {
+        diff = "auto";
+        branch = "auto";
+        status = "auto";
+      };
+
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "default";
+      };
+
+      branch = {
+        sort = "-committerdate";
+      };
+
+      filter = {
+        clean = "git-stripspace";
+      };
+
+      commit = {
+        verbose = true;
+      };
+
+      merge = {
+        conflictStyle = "zdiff3";
+      };
+
+      rebase = {
+        autosquash = true;
+      };
+
+      push = {
+        default = "current";
+        autoSetupRemote = true;
+      };
+
+      fetch = {
+        prune = true;
+        pruneTags = true;
+      };
+
+      pull = {
+        ff = "only";
+        rebase = true;
+      };
+
     };
   };
 
