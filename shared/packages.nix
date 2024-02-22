@@ -97,6 +97,8 @@ with pkgs; [
   # Dev Tools
   git-absorb
   delta
+  sourcekit-lsp
+  rubyPackages.solargraph
 
   # Creature comforts
   _1password-gui
