@@ -79,6 +79,33 @@ in
   home.file.".icons/default" = {
     source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
   };
+  home.file.".config/shikane/config.toml" = {
+    text = ''
+      [[profile]]
+      name = "homeoffice"
+      exec = [ "echo 'switched to homeoffice'" ]
+        [[profile.output]]
+        match = "/U2720Q/"
+        enable = true
+        mode = { width = 3840, height = 2160, refresh = 60 }
+        position = { x = 0, y = 0 }
+        scale = 2.0
+
+        [[profile.output]]
+        match = "/eDP-1/"
+        enable = false
+
+      [[profile]]
+      name = "undocked"
+      exec = [ "echo 'switched to undocked'" ]
+        [[profile.output]]
+        match = "/eDP-1/"
+        enable = true
+        mode = { width = 2256, height = 1504, refresh = 59.99 }
+        position = { x = 0, y = 0 }
+        scale = 1.5
+    '';
+  };
 
   home.pointerCursor = {
     name = "Vanilla-DMZ";
@@ -99,22 +126,19 @@ in
 
   services.blueman-applet.enable = true;
 
-  services.kanshi = {
-    enable = settings.laptop;
-    extraConfig = ''
-      profile {
-        output "BOE 0x091D Unknown" enable mode 1920x1080@60.002Hz position 0,0 scale 1.25
-      }
-
-      profile {
-        output "eDP-1" enable mode 2256x1504@59.999Hz position 0,0 scale 1.50
-      }
-
-      profile {
-        output "eDP-1" disable
-        output "Dell Inc. DELL U2720Q 3J9JV13" enable mode 3840x2160@60.000Hz position 0,0 scale 2.000000
-      }
-    '';
+  systemd.user.services.shikane = {
+    Unit = {
+      Description = "shikane output switcher";
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+      After = ["sway-session.target"];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.shikane}/bin/shikane";
+      Restart = "always";
+    };
   };
 
   gtk = {

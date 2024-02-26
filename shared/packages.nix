@@ -32,18 +32,19 @@ let
 in
 with pkgs; [
   # Sway tools
-  dmenu-wayland
-  wofi
-  swaylock
-  swayidle
-  sway-contrib.grimshot
-  wl-clipboard
-  mako # notifications
-  wob # volume/brightness bar
-  wev # for getting key codes on Wayland
-  playerctl # prev/play/next control of audio
   brightnessctl # Monitor brightness
   dconf
+  dmenu-wayland
+  mako # notifications
+  playerctl # prev/play/next control of audio
+  shikane # display output switching
+  sway-contrib.grimshot
+  swayidle
+  swaylock
+  wev # for getting key codes on Wayland
+  wl-clipboard
+  wob # volume/brightness bar
+  wofi
 
   # Linux hardware tools
   lshw
