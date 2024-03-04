@@ -132,7 +132,6 @@ in
     };
     Install = {
       WantedBy = ["graphical-session.target"];
-      After = ["sway-session.target"];
     };
     Service = {
       Type = "simple";
