@@ -90,6 +90,7 @@ in
 
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+    ACTION=="add", KERNEL=="snd_seq_dummy", SUBSYSTEM=="module", RUN{builtin}+="kmod load ddcci_backlight"
   '';
 
   services.fstrim.enable = true;
@@ -97,14 +98,14 @@ in
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_7;
   boot.kernelParams = [ "net.ifnames=0" ];
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "ddcci_backlight" ];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "uvcvideo" "btusb" "i2c-dev" "ddcci_backlight" ];
+  boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "uvcvideo" "btusb" "i2c-dev" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
   boot.extraModprobeConfig = ''
-    options ddcci dyndbg delay=400
+    options ddcci dyndbg delay=100
     options ddcci_backlight dyndbg
   '';
 
