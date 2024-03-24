@@ -177,7 +177,7 @@ in
 
     loginShellInit = ''
       if test (tty) = "/dev/tty1"
-        sway
+        WLR_RENDERER=1 sway
       end
     '';
   };
