@@ -62,16 +62,6 @@ in
     cpuFreqGovernor = lib.mkDefault "powersave";
   };
 
-  environment.systemPackages = with pkgs; [
-    usbutils
-    pciutils
-    bluez-tools
-    pulseaudio
-    v4l-utils
-    ddcutil
-    ntfs3g
-  ];
-
   services.logind = {
     lidSwitch = "suspend-then-hibernate";
     lidSwitchExternalPower = "ignore";

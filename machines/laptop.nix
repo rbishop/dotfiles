@@ -89,20 +89,7 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    usbutils
-    pciutils
-    bluez-tools
-    pulseaudio
-    libvdpau
-    v4l-utils
-    ddcutil
-    ntfs3g
-    osquery
-  ];
-
-  # osquery is denylisted in 23.05 but re-added in unstable
-  # services.osquery.enable = true;
+  environment.systemPackages = with pkgs; [ osquery ];
 
   systemd.services.osqueryd = {
     after = [ "network.target" "syslog.service" ];
