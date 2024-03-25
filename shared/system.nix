@@ -81,6 +81,20 @@
     wifi.backend = "iwd";
   };
 
+  systemd.network.networks."40-wired" = {
+    enable = true;
+    matchConfig.Name = "eth0";
+    networkConfig = {
+      DHCP = "yes";
+      IPv6PrivacyExtensions= "kernel";
+    };
+    linkConfig.RequiredForOnline = "no";
+    extraConfig = ''
+      [Route]
+      Metric = 100
+    '';
+  };
+
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   security.pam.services.swaylock = {
