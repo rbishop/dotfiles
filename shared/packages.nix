@@ -98,8 +98,8 @@ with pkgs; [
   # Dev Tools
   git-absorb
   delta
-  sourcekit-lsp
   rubyPackages.solargraph
+  lnav
 
   # Creature comforts
   _1password-gui
@@ -122,6 +122,7 @@ with pkgs; [
   slack-wayland
   spotify-wayland
   tailscale
+  trayscale
   vlc
   xwayland
   zathura

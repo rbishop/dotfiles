@@ -49,11 +49,14 @@
   networking.enableIPv6 = false; # Spectrum stopped working
   networking.useNetworkd = true;
   networking.nameservers = [ "192.168.88.42" "1.1.1.1" "1.0.0.1" ];
-  networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
-  networking.firewall.allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
-  networking.firewall.allowedUDPPorts = [ 9556 ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
+    allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
+    allowedUDPPorts = [ 9556 ];
+    allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+  };
 
   # Use iwd for managing wireless networks
   networking.wireless.iwd = {

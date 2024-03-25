@@ -96,6 +96,16 @@ in
         enable = false
 
       [[profile]]
+      name = "latitude"
+      exec = [ "echo 'switched to latitude'" ]
+        [[profile.output]]
+        match = "/BOE 0x091D/"
+        enable = true
+        mode = { width = 1920, height = 1080, refresh = 60.002 }
+        position = { x = 0, y = 0 }
+        scale = 1.25
+
+      [[profile]]
       name = "undocked"
       exec = [ "echo 'switched to undocked'" ]
         [[profile.output]]
@@ -215,12 +225,6 @@ in
       autocmd User LspSetup call LspOptionsSet(lspOpts)
 
       let lspServers = [
-        \ #{
-        \	  name: 'sourcekit',
-        \	  filetype: ['c', 'cpp', 'swift'],
-        \	  path: '${pkgs.sourcekit-lsp}/bin/sourcekit-lsp',
-        \	  args: []
-        \ },
         \#{
         \	  name: 'solargraph',
         \	  filetype: ['ruby'],

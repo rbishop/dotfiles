@@ -53,6 +53,7 @@ in
   ];
 
   services.hardware.bolt.enable = true;
+  services.fstrim.enable = true;
 
   networking.hostName = settings.hostName;
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
@@ -91,6 +92,12 @@ in
 
   environment.systemPackages = with pkgs; [ osquery ];
 
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "client";
+    openFirewall = true;
+  };
+
   systemd.services.osqueryd = {
     after = [ "network.target" "syslog.service" ];
     description = "The osquery daemon";
@@ -103,16 +110,18 @@ in
     };
     wantedBy = [ "multi-user.target" ];
   };
+
   systemd.tmpfiles.rules = [
     "d /run/osquery/osqueryd.pid 0755 root root -"
   ];
 
   services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
+    lidSwitch = "suspend-then-hibernate";
     lidSwitchExternalPower = "ignore";
     extraConfig = ''
-      HandlePowerKey=suspend
+      HandlePowerKey=suspend-then-hibernate
+      IdleAction=suspend-then-hibernate
+      IdleActionSec=2m
     '';
   };
 
@@ -140,12 +149,16 @@ in
     ];
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.kernelPackages = pkgs.linuxPackages_6_7;
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" "ddcci_backlight" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+  boot.kernelModules = [ "kvm-intel" "i2c-dev" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
   boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" "mem_sleep_default=deep" "resume=/dev/mapper/swap" ];
+  boot.extraModprobeConfig = ''
+    options ddcci dyndbg delay=100
+    options ddcci_backlight dyndbg
+  '';
 
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/b3acb1e2-ed60-4980-b750-82152ed292ea";
