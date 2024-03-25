@@ -35,7 +35,7 @@
         };
 
         "network#1" = {
-          interval = 2;
+          interval = 1;
           interface = "eth0";
           format-ethernet = "";
           format-disconnected = "";
@@ -97,7 +97,7 @@
 
         "battery" = {
           bat = settings.sensors.battery;
-          interval = 60;
+          interval = 1;
           states = {
               warning = 30;
               critical = 15;

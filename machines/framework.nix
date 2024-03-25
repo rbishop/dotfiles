@@ -50,6 +50,9 @@ in
   services.fwupd = {
     enable = true;
     extraRemotes = [ "lvfs-testing" ];
+    daemonSettings = {
+      OnlyTrusted = false;
+    };
   };
 
   networking.hostName = settings.hostName;
@@ -61,6 +64,8 @@ in
     enable = true;
     cpuFreqGovernor = lib.mkDefault "powersave";
   };
+
+  services.power-profiles-daemon.enable = true;
 
   services.logind = {
     lidSwitch = "suspend-then-hibernate";
@@ -91,7 +96,7 @@ in
   };
 
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_7;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "amdgpu" "iwlwifi" "k10temp" "kvm-amd" ];

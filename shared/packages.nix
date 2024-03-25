@@ -126,4 +126,5 @@ with pkgs; [
   xwayland
   zathura
   zoom-us
+  transmission-gtk
 ]

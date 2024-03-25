@@ -387,10 +387,11 @@ in
   programs.mpv = {
     enable = true;
     config = {
-      profile = "gpu-hq";
-      gpu-context = "wayland";
-      vo = "gpu";
-      hwdec = "vaapi";
+      vo = "dmabuf-wayland";
+      gpu-api = "vulkan";
+      hwdec = "auto";
+      gpu-context = "waylandvk";
+      hdr-compute-peak = "no";
       ao = "alsa";
       audio-device = "auto";
     };
