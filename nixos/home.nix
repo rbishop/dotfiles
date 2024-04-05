@@ -201,6 +201,8 @@ in
       Plug 'ayu-theme/ayu-vim'
       Plug 'danro/rename.vim'
       Plug 'ervandew/supertab'
+      Plug 'tyru/open-browser.vim'
+      Plug 'tyru/open-browser-github.vim'
       Plug 'jasonccox/vim-wayland-clipboard'
       Plug 'junegunn/fzf'
       Plug 'junegunn/fzf.vim'
