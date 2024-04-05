@@ -81,7 +81,7 @@
     wifi.backend = "iwd";
   };
 
-  systemd.network.networks."40-wired" = {
+  systemd.network.networks."10-wired" = {
     enable = true;
     matchConfig.Name = "eth0";
     networkConfig = {
@@ -90,8 +90,22 @@
     };
     linkConfig.RequiredForOnline = "no";
     extraConfig = ''
-      [Route]
-      Metric = 100
+      [DHCPv4]
+      RouteMetric=10
+    '';
+  };
+
+  systemd.network.networks."20-wlan" = {
+    enable = true;
+    matchConfig.Name = "wlan0";
+    networkConfig = {
+      DHCP = "yes";
+      IPv6PrivacyExtensions= "kernel";
+    };
+    linkConfig.RequiredForOnline = "no";
+    extraConfig = ''
+      [DHCPv4]
+      RouteMetric=20
     '';
   };
 

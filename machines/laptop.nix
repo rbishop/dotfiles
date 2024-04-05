@@ -56,8 +56,6 @@ in
   services.fstrim.enable = true;
 
   networking.hostName = settings.hostName;
-  networking.interfaces.eth0.useDHCP = lib.mkDefault true;
-  networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
   networking.extraHosts = ''
     127.0.0.1 twitter.com
     127.0.0.1 news.ycombinator.com
