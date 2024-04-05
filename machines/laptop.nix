@@ -149,16 +149,12 @@ in
     ];
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_7;
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" "ddcci_backlight" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "i2c-dev" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
+  boot.extraModulePackages = [];
   boot.kernelParams = [ "button.lid_init_state=open" "net.ifnames=0" "pcie_ports=native" "mem_sleep_default=deep" "resume=/dev/mapper/swap" ];
-  boot.extraModprobeConfig = ''
-    options ddcci dyndbg delay=100
-    options ddcci_backlight dyndbg
-  '';
 
   boot.initrd.luks.devices.crypted = {
     device = "/dev/disk/by-uuid/b3acb1e2-ed60-4980-b750-82152ed292ea";

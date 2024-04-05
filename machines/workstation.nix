@@ -60,24 +60,6 @@ in
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  #  systemd.services."ddcci@" = {
-  #    enable = true;
-  #    description = "Force DDCCI to probe after AMDGPU driver is loaded";
-  #    unitConfig = {
-  #      After = "graphical.target";
-  #      Before = "shutdown.target";
-  #      Conflicts = "shutdown.target";
-  #    };
-  #
-  #    serviceConfig = {
-  #      Type = "oneshot";
-  #      ExecStart = ''
-  #        ${pkgs.bash}/bin/bash -c 'echo Trying to attach ddcci to %i && success=0 && i=0 && id=$(echo %i | cut -d "-" -f 2) && while ((success < 1)) && ((i++ < 5)); do ${pkgs.ddcutil}/bin/ddcutil getvcp 10 -b $id && { success=1 && echo ddcci 0x37 > /sys/bus/i2c/devices/%i/new_device && echo "ddcci attached to %i"; } || sleep 5; done'
-  #      '';
-  #      Restart = "no";
-  #    };
-  #  };
-
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -90,7 +72,6 @@ in
 
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
-    ACTION=="add", KERNEL=="snd_seq_dummy", SUBSYSTEM=="module", RUN{builtin}+="kmod load ddcci_backlight"
   '';
 
   services.fstrim.enable = true;
@@ -98,16 +79,12 @@ in
   # Needed for nixos-generators to cross compile
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_7;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "net.ifnames=0" ];
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "ddcci_backlight" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [];
   boot.kernelModules = [ "dm-snapshot" "amdgpu" "kvm-amd" "k10temp" "nct6775" "uvcvideo" "btusb" "i2c-dev" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
-  boot.extraModprobeConfig = ''
-    options ddcci dyndbg delay=100
-    options ddcci_backlight dyndbg
-  '';
+  boot.extraModulePackages = [];
 
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 4194304;

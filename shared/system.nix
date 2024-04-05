@@ -156,11 +156,10 @@
     fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
   };
 
-  # Udev rules for the Logitech c920 webcam and DDC/CI devices, respectively
+  # Udev rules for the Logitech c920 webcam
   services.udev.extraRules = ''
     SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTR{index}=="0", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="0892", RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl -d $devnode --set-ctrl=focus_auto=0"
   '';
-  #SUBSYSTEM=="i2c-dev", ACTION=="add", ATTR{name}=="AMDGPU DM*", TAG+="ddcci", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ddcci@$kernel.service"
 
   services.openssh = {
     enable = true;
