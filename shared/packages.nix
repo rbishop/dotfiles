@@ -105,7 +105,6 @@ with pkgs; [
   _1password-gui
   alacritty
   apostrophe # markdown editor
-  authy
   chromium-gpu
   cinnamon.nemo # file explorer
   ffmpeg

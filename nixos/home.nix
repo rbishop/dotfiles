@@ -65,6 +65,7 @@ in
     EDITOR = "vim";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
+    NIXOS_OZONE_WL = 1;
   };
 
   home.file.".config/sway/lock.sh" = lockScreens.${settings.hostName};
