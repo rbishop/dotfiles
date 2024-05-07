@@ -1,35 +1,5 @@
 { pkgs, ... }:
 
-let
-  # Wrap Chromium to enable Wayland and Hardware Acceleration
-  chromium-gpu = pkgs.symlinkJoin {
-    name = "chromium";
-    paths = [ pkgs.chromium ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/chromium \
-        --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,VaapiVideoDecoder --ozone-platform=wayland --use-gl=egl --ignore-gpu-blocklist --enable-gpu-rasterization --enable-zero-copy"
-    '';
-  };
-
-  slack-wayland = pkgs.symlinkJoin {
-    name = "slack";
-    paths = [ pkgs.slack ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/slack --add-flags "--enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland"
-    '';
-  };
-
-  spotify-wayland = pkgs.symlinkJoin {
-    name = "spotify";
-    paths = [ pkgs.spotify ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/spotify --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland"
-    '';
-  };
-in
 with pkgs; [
   # Sway tools
   brightnessctl # Monitor brightness
@@ -105,7 +75,7 @@ with pkgs; [
   _1password-gui
   alacritty
   apostrophe # markdown editor
-  chromium-gpu
+  chromium
   cinnamon.nemo # file explorer
   ffmpeg
   firefox-wayland
@@ -118,8 +88,8 @@ with pkgs; [
   masterpdfeditor4
   planify
   signal-desktop
-  slack-wayland
-  spotify-wayland
+  slack
+  spotify
   tailscale
   trayscale
   vlc

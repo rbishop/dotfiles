@@ -32,18 +32,24 @@
 
       font pango:Open Sans 12
 
-      seat seat0 xcursor_theme Vanilla-DMZ 32
+      set $gnome-schema org.gnome.desktop.interface
+      set $cursor_theme Vanilla-DMZ
+      set $cursor_size 24
 
+      ### Xcursor configuration
+      seat seat0 xcursor_theme $cursor_theme $cursor_size
       exec_always {
-        gsettings set org.gnome.desktop.interface cursor-theme Vanilla-DMZ
-        gsettings set org.gnome.desktop.interface cursor-size 32
+        gsettings set $gnome-schema icon-theme $cursor_theme
+        gsettings set $gnome-schema cursor-theme $cursor_theme
+        gsettings set $gnome-schema cursor-size $cursor_size
       }
 
+      # External monitor
       output DP-1 mode 3840x2160@59.997Hz scale 2
 
-      # laptop displays
-      output DP-2 mode 3840x2160@59.997Hz scale 2
-      output eDP-1 mode 1920x1080@60.002Hz scale 1.25
+      # Laptop displays
+      output "BOE 0x091D" mode 1920x1080@60.002Hz scale 1.25
+      output "BOE 0x0BCA" mode 2256x1504@59.999Hz scale 1.5
 
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 

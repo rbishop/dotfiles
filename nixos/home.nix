@@ -62,10 +62,18 @@ in
     XDG_RUNTIME_DIR = "/run/user/1000";
     XDG_SCREENSHOTS_DIR = "/home/${settings.username}/Screenshots";
     XDG_PICTURES_DIR = "/home/${settings.username}/Screenshots";
+    NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_PLATFORM = "wayland";
+    GDK_DPI_SCALE = 1.0;
+    GDK_SCALE = "2.0";
+    QT_SCALE_FACTOR = "2";
+    QT_QPA_PLATFORM ="xcb";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_WAYLAND_FORCE_DPI = "physical";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     EDITOR = "vim";
     GIT_EDITOR = "vim";
     BUNDLE_DITOR = "vim";
-    NIXOS_OZONE_WL = 1;
   };
 
   home.file.".config/sway/lock.sh" = lockScreens.${settings.hostName};
@@ -83,45 +91,45 @@ in
   home.file.".config/shikane/config.toml" = {
     text = ''
       [[profile]]
-      name = "homeoffice"
-      exec = [ "echo 'switched to homeoffice'" ]
-        [[profile.output]]
-        match = "/U2720Q/"
-        enable = true
-        mode = { width = 3840, height = 2160, refresh = 60 }
-        position = { x = 0, y = 0 }
-        scale = 2.0
-
-        [[profile.output]]
-        match = "/eDP-1/"
-        enable = false
-
-      [[profile]]
       name = "latitude"
       exec = [ "echo 'switched to latitude'" ]
-        [[profile.output]]
-        match = "/BOE 0x091D/"
-        enable = true
-        mode = { width = 1920, height = 1080, refresh = 60.002 }
-        position = { x = 0, y = 0 }
-        scale = 1.25
+      [[profile.output]]
+      match = "/BOE 0x091D/"
+      enable = true
+      mode = { width = 1920, height = 1080, refresh = 60.002 }
+      position = { x = 0, y = 0 }
+      scale = 1.25
 
       [[profile]]
-      name = "undocked"
-      exec = [ "echo 'switched to undocked'" ]
-        [[profile.output]]
-        match = "/eDP-1/"
-        enable = true
-        mode = { width = 2256, height = 1504, refresh = 59.99 }
-        position = { x = 0, y = 0 }
-        scale = 1.5
+      name = "framework"
+      exec = [ "echo 'switched to framework'" ]
+      [[profile.output]]
+      match = "/BOE 0x0BCA/"
+      enable = true
+      mode = { width = 2256, height = 1504, refresh = 59.999 }
+      position = { x = 0, y = 0 }
+      scale = 1.5
+
+      [[profile]]
+      name = "homeoffice"
+      exec = [ "echo 'switched to homeoffice'" ]
+      [[profile.output]]
+      match = "/U2720Q/"
+      enable = true
+      mode = { width = 3840, height = 2160, refresh = 60 }
+      position = { x = 0, y = 0 }
+      scale = 2.0
+
+      [[profile.output]]
+      match = "/eDP-1/"
+      enable = false
     '';
   };
 
   home.pointerCursor = {
     name = "Vanilla-DMZ";
     package = pkgs.vanilla-dmz;
-    size = 32;
+    size = 24;
     gtk.enable = true;
   };
 
@@ -155,21 +163,21 @@ in
     enable = true;
     font.name = "Open Sans 12";
     font.size = 12;
-    theme.name = "Adwaita";
+    theme = {
+      package = pkgs.gnome.gnome-themes-extra;
+      name = "Adwaita";
+    };
 
     gtk3.extraConfig = {
       gtk-recent-files-enabled = false;
       gtk-recent-files-limit = 0;
       gtk-recent-files-max-age = 0;
-      gtk-cursor-theme-name = "Vanilla-DMZ";
-      gtk-cursor-theme-size = 32;
     };
 
     gtk4.extraConfig = {
       gtk-recent-files-enabled = false;
       gtk-recent-files-max-age = 0;
-      gtk-cursor-theme-name = "Vanilla-DMZ";
-      gtk-cursor-theme-size = 32;
+      gtk-recent-files-limit = 0;
     };
   };
 
