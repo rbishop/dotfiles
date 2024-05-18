@@ -46,7 +46,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.enableIPv6 = false; # Spectrum stopped working
+  networking.enableIPv6 = true;
   networking.useNetworkd = true;
   networking.nameservers = [];
   networking.nftables.enable = true;
@@ -54,8 +54,13 @@
     enable = true;
     allowedTCPPorts = [ 22 80 443 5201 6969 8008 8009 8010 9556 ];
     allowedTCPPortRanges = [ { from = 6881; to = 6889; } ];
-    allowedUDPPorts = [ 9556 ];
+    allowedUDPPorts = [ 546 9556 ];
     allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+  };
+
+  networking.defaultGateway6 = {
+    address = "fe80::1";
+    interface = "eth0";
   };
 
   # Use iwd for managing wireless networks
@@ -71,7 +76,7 @@
       };
 
       Network = {
-        EnableIPv6 = false;
+        EnableIPv6 = true;
       };
     };
   };
@@ -86,7 +91,7 @@
     matchConfig.Name = "eth0";
     networkConfig = {
       DHCP = "yes";
-      IPv6PrivacyExtensions= "kernel";
+      IPv6PrivacyExtensions = true;
     };
     linkConfig.RequiredForOnline = "no";
     extraConfig = ''
@@ -100,7 +105,7 @@
     matchConfig.Name = "wlan0";
     networkConfig = {
       DHCP = "yes";
-      IPv6PrivacyExtensions= "kernel";
+      IPv6PrivacyExtensions = true;
     };
     linkConfig.RequiredForOnline = "no";
     extraConfig = ''

@@ -45,8 +45,6 @@ in
   home-manager.users.rb = homeConfig;
 
   networking.hostName = settings.hostName;
-  networking.interfaces.eth0.useDHCP = true;
-  networking.interfaces.wlan0.useDHCP = true;
 
   nix.settings.max-jobs = 24;
   powerManagement = {
@@ -69,6 +67,11 @@ in
   hardware.cpu.amd.updateMicrocode = true;
 
   services.xserver.videoDrivers = [ "modesetting" ];
+
+  services.fwupd = {
+    enable = true;
+    extraRemotes = [ "lvfs-testing" ];
+  };
 
   services.udev.extraRules = ''
     KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
