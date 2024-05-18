@@ -51,7 +51,6 @@
           interface = "wlan0";
           format = "";
           format-wifi = "";
-          on-click = "iwgtk";
           format-disconnected = "";
           format-disabled = "";
           format-icons = [];

@@ -48,7 +48,7 @@
   networking.useDHCP = false;
   networking.enableIPv6 = false; # Spectrum stopped working
   networking.useNetworkd = true;
-  networking.nameservers = [ "192.168.88.42" "1.1.1.1" "1.0.0.1" ];
+  networking.nameservers = [];
   networking.nftables.enable = true;
   networking.firewall = {
     enable = true;
@@ -77,7 +77,7 @@
   };
 
   networking.networkmanager = {
-    enable = false;
+    enable = true;
     wifi.backend = "iwd";
   };
 
@@ -165,9 +165,9 @@
 
   services.resolved = {
     enable = true;
-    dnssec = "allow-downgrade";
+    dnssec = "false";
     domains = [ "~." ];
-    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+    fallbackDns = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" ];
   };
 
   # Udev rules for the Logitech c920 webcam

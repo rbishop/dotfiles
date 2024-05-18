@@ -36,11 +36,12 @@ with pkgs; [
   gnumake
   gparted
   grim
-  iwgtk
   htop
   jq
   man-pages
   man-pages-posix
+  networkmanager
+  networkmanagerapplet
   pamixer
   parted
   pavucontrol
