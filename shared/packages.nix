@@ -65,12 +65,17 @@ with pkgs; [
   openmoji-color
   roboto-mono
   source-serif
+  nerdfonts
 
   # Dev Tools
   git-absorb
   delta
   rubyPackages.solargraph
+  rubyPackages.ruby-lsp
+  rubyfmt
   lnav
+  tmuxp
+  watchman
 
   # Creature comforts
   _1password-gui

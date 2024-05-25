@@ -68,6 +68,11 @@ in
 
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+
   services.fwupd = {
     enable = true;
     extraRemotes = [ "lvfs-testing" ];

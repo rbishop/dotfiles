@@ -71,9 +71,9 @@ in
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_WAYLAND_FORCE_DPI = "physical";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    EDITOR = "vim";
-    GIT_EDITOR = "vim";
-    BUNDLE_DITOR = "vim";
+    EDITOR = "nvim";
+    GIT_EDITOR = "nvim";
+    BUNDLE_DITOR = "nvim";
   };
 
   home.file.".config/sway/lock.sh" = lockScreens.${settings.hostName};
@@ -201,79 +201,27 @@ in
     '';
   };
 
-  programs.vim = { 
+  programs.neovim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-plug ];
-    extraConfig = ''
-      call plug#begin('~/.vim/plugged')
-
-      Plug 'ayu-theme/ayu-vim'
-      Plug 'danro/rename.vim'
-      Plug 'ervandew/supertab'
-      Plug 'tyru/open-browser.vim'
-      Plug 'tyru/open-browser-github.vim'
-      Plug 'jasonccox/vim-wayland-clipboard'
-      Plug 'junegunn/fzf'
-      Plug 'junegunn/fzf.vim'
-      Plug 'preservim/nerdtree'
-      Plug 'tpope/vim-endwise'
-      Plug 'tpope/vim-sensible'
-      Plug 'tpope/vim-surround'
-      Plug 'yegappan/lsp'
-      Plug 'wincent/command-t'
-      Plug 'vim-crystal/vim-crystal'
-      Plug 'pocke/rbs.vim'
-      Plug 'keith/swift.vim'
-      Plug 'ziglang/zig.vim'
-
-      call plug#end()
-
-      set termguicolors
-      let ayucolor="dark"
-      colorscheme ayu
-
-      let lspOpts = #{autoHighlightDiags: v:true}
-      autocmd User LspSetup call LspOptionsSet(lspOpts)
-
-      let lspServers = [
-        \#{
-        \	  name: 'solargraph',
-        \	  filetype: ['ruby'],
-        \	  path: '${pkgs.rubyPackages.solargraph}/bin/solargraph',
-        \	  args: ['stdio']
-        \ }
-        \ ]
-      autocmd User LspSetup call LspAddServer(lspServers)
-
-      syntax on
-      filetype plugin indent on
-      set t_Co=256
-      set ts=2 sw=2 expandtab
-      set number
-      set autowriteall
-      set splitright
-      :au FocusLost * :wa
-
-      set cursorline
-      hi CursorLine cterm=NONE ctermbg=235
-      set cursorcolumn
-      hi CursorColumn cterm=NONE ctermbg=235
-      nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-      nmap <Leader>f :Files<CR>
-      map - :Ex<CR>
-
-      autocmd Filetype go setlocal ts=4 sts=4 sw=4
-      autocmd Filetype rb setlocal ts=2 sts=2 sw=2
-      autocmd InsertLeave * if expand('%') != "" | update | endif
-      autocmd StdinReadPre * let s:std_in=1
-
-      let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-      if empty(glob(data_dir . '/autoload/plug.vim'))
-        silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-      endif
-    '';
+    viAlias = false;
+    vimAlias = true;
+    withRuby = true;
+    withPython3 = true;
+    extraLuaConfig = pkgs.lib.fileContents ../packages/neovim/init.lua;
+    plugins = with pkgs.vimPlugins; [
+      vim-plug nvim-lspconfig Rename vim-endwise vim-surround
+      neovim-sensible nvim-fzf nvim-fzf-commands supertab
+      swift-vim zig-vim vim-crystal hare-vim neovim-ayu vim-wayland-clipboard
+      open-browser-vim open-browser-github-vim nerdtree supertab
+      plenary-nvim fzf-lsp-nvim lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp
+    ];
   };
+
+  home.file.".config/nvim/lua/ruby.lua" = {
+    source = ../packages/neovim/langs/ruby.lua;
+  };
+
+  programs.vim.enable = true; 
   
   programs.tmux = {
     enable = true;
