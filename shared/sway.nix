@@ -1,5 +1,5 @@
-{
-  wayland.windowManager.sway = {
+{ pkgs, ...} : {
+  wayland.windowManager.sway = rec {
     enable = true;
     xwayland = true;
     wrapperFeatures.gtk = true;
@@ -8,6 +8,9 @@
       terminal = "alacritty";
       menu = "wofi --allow-images --allow-markup --insensitive --gtk-dark --columns=1 --width=15% --show=drun";
       bars = [];
+      keybindings = pkgs.lib.mkOptionDefault {
+        "${config.modifier}+space" =  "exec wofi --allow-images --allow-markup --insensitive --gtk-dark --columns=1 --width=15% --show=drun";
+      };
     };
     extraConfig = ''
       input "type:keyboard" {
@@ -32,6 +35,7 @@
 
       font pango:Open Sans 12
 
+      set $mod ${config.modifier}
       set $gnome-schema org.gnome.desktop.interface
       set $cursor_theme Vanilla-DMZ
       set $cursor_size 24
@@ -70,16 +74,19 @@
       bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
 
       # Screenshots
-      bindsym Mod4+Ctrl+4 exec grimshot save area
+      bindsym $mod+Ctrl+4 exec grimshot save area
 
       set $lock_path '~/.config/sway/lock.sh'
       set $idle_path '~/.config/sway/idle.sh'
 
       # Lock Button
-      bindsym Mod4+Control+q exec $lock_path
+      bindsym $mod+Control+q exec $lock_path
 
       # Clear Mako notifications
-      bindsym Mod4+c exec makoctl dismiss --all
+      bindsym $mod+c exec makoctl dismiss --all
+
+      # Wofi Menu
+      #bindsym $mod+space exec wofi --allow-images --allow-markup --insensitive --gtk-dark --columns=1 --width=15% --show=drun
 
       exec $idle_path
 
