@@ -65,7 +65,6 @@ with pkgs; [
   openmoji-color
   roboto-mono
   source-serif
-  nerdfonts
 
   # Dev Tools
   git-absorb
