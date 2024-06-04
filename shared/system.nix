@@ -84,6 +84,7 @@
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
+    unmanaged = ["tailscale0"];
   };
 
   systemd.network.networks."10-wired" = {
@@ -114,6 +115,7 @@
     '';
   };
 
+  systemd.services.systemd-NetworkManager-wait-online.enable = lib.mkForce true;
   systemd.services.systemd-networkd-wait-online.enable = lib.mkForce false;
 
   security.pam.services.swaylock = {
