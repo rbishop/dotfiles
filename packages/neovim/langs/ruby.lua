@@ -7,15 +7,13 @@ lsp.ruby_lsp.setup({
     formatter = "none",
   },
 })
+
 lsp.sorbet.setup({
   capabilities = capabilities,
 })
 
-local null_ls = require("null-ls")
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.rubyfmt,
-  },
+lsp.standardrb.setup({
+  capabilities = capabilities,
 })
 
 vim.api.nvim_create_augroup('AutoFormatting', {})
