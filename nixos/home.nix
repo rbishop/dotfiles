@@ -209,11 +209,12 @@ in
     withPython3 = true;
     extraLuaConfig = pkgs.lib.fileContents ../packages/neovim/init.lua;
     plugins = with pkgs.vimPlugins; [
-      vim-plug nvim-lspconfig Rename vim-endwise vim-surround
-      neovim-sensible nvim-fzf nvim-fzf-commands supertab
-      swift-vim zig-vim vim-crystal hare-vim neovim-ayu vim-wayland-clipboard
-      open-browser-vim open-browser-github-vim nerdtree supertab
-      plenary-nvim fzf-lsp-nvim lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp
+      nvim-lspconfig Rename vim-endwise vim-surround nvim-fzf nvim-fzf-commands
+      supertab nvim-treesitter oil-nvim vim-wayland-clipboard open-browser-vim
+      open-browser-github-vim nerdtree supertab plenary-nvim fzf-lsp-nvim
+      lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp gruvbox-nvim everforest
+      papercolor-theme
+      (nvim-treesitter.withPlugins (p: [ p.zig p.swift p.ruby p.hare p.yaml p.go p.lua p.vim p.c p.nix ]))
     ];
   };
 

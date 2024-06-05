@@ -1,7 +1,4 @@
-local vim = vim
-
-require('ayu').setup({})
-require('ayu').colorscheme('dark')
+require('nvim-treesitter.configs').setup({})
 
 require('cmp').setup {
   sources = {
@@ -9,30 +6,39 @@ require('cmp').setup {
   }
 }
 
+require ('oil').setup({})
+
+-- load Ruby LSPs
 require("ruby")
 
+local vim = vim
+
+-- ignore neovim's default colorschemes that are in the nix package
+vim.cmd([[set wildignore+=blue.vim,darkblue.vim,delek.vim,default.vim,desert.vim,elflord.vim,evening.vim,industry.vim,habamax.vim,koehler.vim,lunaperche.vim,morning.vim,murphy.vim,pablo.vim,peachpuff.vim,quiet.vim,retrobox.vim,ron.vim,shine.vim,slate.vim,sorbet.vim,torte.vim,vim.lua,wildcharm.vim,zaibatsu.vim,zellner.vim]])
+
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
 vim.cmd([[
-  set termguicolors
   syntax on
   filetype plugin indent on
+  set termguicolors
   set t_Co=256
   set ts=2 sw=2 expandtab
   set number
   set autowriteall
   set splitright
-  :au FocusLost * :wa
   set exrc
   set cursorline
-  hi CursorLine cterm=NONE ctermbg=235
   set cursorcolumn
+  set colorcolumn=
+  hi CursorLine cterm=NONE ctermbg=235
   hi CursorColumn cterm=NONE ctermbg=235
-  nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-  nnoremap <Leader>/ :nohlsearch<CR>
   command! Files lua require("fzf-commands").files()
   nmap <Leader>f :Files<CR>
-  map - :Ex<CR>
-  autocmd Filetype go setlocal ts=4 sts=4 sw=4
-  autocmd Filetype rb setlocal ts=2 sts=2 sw=2
+  nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+  nnoremap <Leader>/ :nohlsearch<CR>
   autocmd InsertLeave * if expand('%') != "" | update | endif
   autocmd StdinReadPre * let s:std_in=1
+  :au FocusLost * :wa
+  colorscheme PaperColor
 ]])
