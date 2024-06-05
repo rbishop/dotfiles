@@ -18,6 +18,15 @@ let
   };
 
   homeConfig = import ../nixos/home.nix { inherit pkgs settings;  };
+
+  steam-hidpi = pkgs.symlinkJoin {
+    name = "steam";
+    paths = [ pkgs.steam ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/steam --set GDK_SCALE "1.0"
+    '';
+  };
 in
 {
   imports =
@@ -41,6 +50,8 @@ in
     LIBVA_DRIVER_NAME = "radeonsi";
     VDPAU_DRIVER = "radeonsi";
   };
+
+  environment.systemPackages = [ steam-hidpi ];
 
   home-manager.users.rb = homeConfig;
 
