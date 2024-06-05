@@ -40,6 +40,16 @@ let
       type = "gem";
     };
   };
+
+  typora-wayland = pkgs.symlinkJoin {
+    name = "typora";
+    paths = [ pkgs.typora ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/typora \
+        --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland"
+    '';
+  };
 in
 with pkgs; [
   # Sway tools
@@ -137,6 +147,7 @@ with pkgs; [
   spotify
   tailscale
   trayscale
+  typora-wayland
   vlc
   xwayland
   zathura
