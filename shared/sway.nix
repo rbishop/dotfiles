@@ -49,9 +49,8 @@
       }
 
       # External monitor
-      output DP-1 mode 3840x2160@59.997Hz scale 2
-
-      output DP-2 mode 3840x2160@59.997Hz scale 2
+      output DP-1 mode 3840x2560@59.984Hz scale 2
+      output DP-2 mode 3840x2560@59.984Hz scale 2
 
       # Laptop displays
       output "BOE 0x091D" mode 1920x1080@60.002Hz scale 1.25

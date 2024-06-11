@@ -120,6 +120,16 @@ in
       position = { x = 0, y = 0 }
       scale = 2.0
 
+      [[profile]]
+      name = "benq"
+      exec = [ "echo 'switched to benq'" ]
+      [[profile.output]]
+      match = "/RD280U/"
+      enable = true
+      mode = { width = 3840, height = 2560, refresh = 59.984 }
+      position = { x = 0, y = 0 }
+      scale = 2.0
+
       [[profile.output]]
       match = "/eDP-1/"
       enable = false
