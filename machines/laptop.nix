@@ -24,7 +24,6 @@ in
       (modulesPath + "/installer/scan/not-detected.nix")
       <home-manager/nixos>
       ../shared/system.nix
-      ../modules/usb-wakeup-disable.nix
     ];
 
   users.users.rbishop = {
@@ -43,14 +42,6 @@ in
     HibernateDelaySec=60m
     SuspendState=mem
   '';
-
-  hardware.usb.wakeupDisabled = [
-    {
-      vendor = "8087";
-      product = "0026";
-      wakeup = true;
-    }
-  ];
 
   services.hardware.bolt.enable = true;
   services.fstrim.enable = true;
