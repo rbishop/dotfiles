@@ -12,6 +12,7 @@ let
   };
 
   ruby-lsp = pkgs.callPackage ./ruby-lsp.nix {};
+  inko = pkgs.callPackage ../packages/inko/default.nix {};
 in
 with pkgs; [
   # Sway tools
@@ -87,6 +88,7 @@ with pkgs; [
   lnav
   tmuxp
   watchman
+  inko
 
   # Creature comforts
   _1password-gui

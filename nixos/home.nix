@@ -225,12 +225,15 @@ in
       open-browser-github-vim nerdtree supertab plenary-nvim fzf-lsp-nvim
       lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp conform-nvim
       gruvbox-nvim everforest papercolor-theme
-      (nvim-treesitter.withPlugins (p: [ p.zig p.swift p.ruby p.hare p.yaml p.go p.lua p.vim p.c p.nix ]))
+      (nvim-treesitter.withPlugins (p: [ p.zig p.swift p.ruby p.hare p.yaml p.go p.lua p.vim p.c p.nix p.inko ]))
     ];
   };
 
   home.file.".config/nvim/lua/ruby.lua" = {
     source = ../packages/neovim/langs/ruby.lua;
+  };
+  home.file.".config/nvim/lua/crystal.lua" = {
+    source = ../packages/neovim/langs/crystal.lua;
   };
 
   programs.vim.enable = true; 
