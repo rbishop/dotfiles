@@ -83,7 +83,7 @@ with pkgs; [
   git-absorb
   delta
   ruby-lsp
-  rubyfmt
+  crystalline
   lnav
   tmuxp
   watchman

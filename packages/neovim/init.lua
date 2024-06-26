@@ -22,11 +22,20 @@ require('cmp').setup {
 
 require ('oil').setup({})
 
--- load Ruby LSPs
+-- load language specific LSP/formatters
+require("crystal")
 require("ruby")
 
 local vim = vim
 
+vim.api.nvim_create_augroup('AutoFormatting', {})
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.(rb|cr)',
+  group = 'AutoFormatting',
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
 -- ignore neovim's default colorschemes that are in the nix package
 vim.cmd([[set wildignore+=blue.vim,darkblue.vim,delek.vim,default.vim,desert.vim,elflord.vim,evening.vim,industry.vim,habamax.vim,koehler.vim,lunaperche.vim,morning.vim,murphy.vim,pablo.vim,peachpuff.vim,quiet.vim,retrobox.vim,ron.vim,shine.vim,slate.vim,sorbet.vim,torte.vim,vim.lua,wildcharm.vim,zaibatsu.vim,zellner.vim]])
 

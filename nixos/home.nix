@@ -218,12 +218,13 @@ in
     withRuby = true;
     withPython3 = true;
     extraLuaConfig = pkgs.lib.fileContents ../packages/neovim/init.lua;
+    extraPackages = with pkgs; [ ruby-lsp crystalline ];
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig Rename vim-endwise vim-surround nvim-fzf nvim-fzf-commands
       supertab nvim-treesitter oil-nvim vim-wayland-clipboard open-browser-vim
       open-browser-github-vim nerdtree supertab plenary-nvim fzf-lsp-nvim
-      lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp gruvbox-nvim everforest
-      papercolor-theme
+      lsp-zero-nvim none-ls-nvim nvim-cmp cmp-nvim-lsp conform-nvim
+      gruvbox-nvim everforest papercolor-theme
       (nvim-treesitter.withPlugins (p: [ p.zig p.swift p.ruby p.hare p.yaml p.go p.lua p.vim p.c p.nix ]))
     ];
   };
