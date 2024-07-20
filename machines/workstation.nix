@@ -69,12 +69,12 @@ in
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [ mesa.drivers libva vaapiVdpau ];
   };
+
   hardware.cpu.amd.updateMicrocode = true;
 
   services.xserver.videoDrivers = [ "modesetting" ];
