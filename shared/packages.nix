@@ -89,6 +89,8 @@ with pkgs; [
   tmuxp
   watchman
   inko
+  zig
+  zls
 
   # Creature comforts
   _1password-gui

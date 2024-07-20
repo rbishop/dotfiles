@@ -235,6 +235,9 @@ in
   home.file.".config/nvim/lua/crystal.lua" = {
     source = ../packages/neovim/langs/crystal.lua;
   };
+  home.file.".config/nvim/lua/zig.lua" = {
+    source = ../packages/neovim/langs/zig.lua;
+  };
 
   programs.vim.enable = true; 
   

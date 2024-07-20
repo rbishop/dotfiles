@@ -25,6 +25,7 @@ require ('oil').setup({})
 -- load language specific LSP/formatters
 require("crystal")
 require("ruby")
+require("zig")
 
 local vim = vim
 
