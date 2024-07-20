@@ -53,7 +53,7 @@
 
       # Laptop displays
       output "BOE 0x091D" mode 1920x1080@60.002Hz scale 1.25
-      output "BOE 0x0BCA" mode 2256x1504@59.999Hz scale 1.5
+      output "BOE 0x0BCA Unknown" mode 2256x1504@59.999Hz scale 1.5
 
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
