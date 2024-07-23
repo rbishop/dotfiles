@@ -52,7 +52,7 @@
       output 'BNQ BenQ RD280U D4R0015401Q' mode 3840x2560@59.984Hz scale 2
 
       # Laptop displays
-      output "BOE 0x091D" mode 1920x1080@60.002Hz scale 1.25
+      output "BOE 0x091D Unknown" mode 1920x1080@60.002Hz scale 1.25
       output "BOE 0x0BCA Unknown" mode 2256x1504@59.999Hz scale 1.5
 
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob

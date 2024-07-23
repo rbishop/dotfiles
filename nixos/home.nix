@@ -92,9 +92,9 @@ in
     text = ''
       [[profile]]
       name = "latitude"
-      exec = [ "echo 'switched to latitude'" ]
+
       [[profile.output]]
-      match = "/BOE 0x091D/"
+      search = ["m=0x091", "v=BOE"]
       enable = true
       mode = { width = 1920, height = 1080, refresh = 60.002 }
       position = { x = 0, y = 0 }
@@ -102,36 +102,27 @@ in
 
       [[profile]]
       name = "framework"
-      exec = [ "echo 'switched to framework'" ]
+
       [[profile.output]]
-      match = "/BOE 0x0BCA/"
+      search = ["m=0x0BCA", "v=BOE"]
       enable = true
       mode = { width = 2256, height = 1504, refresh = 59.999 }
       position = { x = 0, y = 0 }
       scale = 1.5
 
       [[profile]]
-      name = "homeoffice"
-      exec = [ "echo 'switched to homeoffice'" ]
-      [[profile.output]]
-      match = "/U2720Q/"
-      enable = true
-      mode = { width = 3840, height = 2160, refresh = 60 }
-      position = { x = 0, y = 0 }
-      scale = 2.0
+      name = "desktop"
 
-      [[profile]]
-      name = "benq"
-      exec = [ "echo 'switched to benq'" ]
       [[profile.output]]
-      match = "/RD280U/"
+      search = ["m=BenQ RD280U"]
       enable = true
       mode = { width = 3840, height = 2560, refresh = 59.984 }
       position = { x = 0, y = 0 }
       scale = 2.0
+      adaptive_sync = false
 
       [[profile.output]]
-      match = "/eDP-1/"
+      search = ["n=eDP-1"]
       enable = false
     '';
   };
