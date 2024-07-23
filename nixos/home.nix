@@ -174,7 +174,7 @@ in
     font.name = "Open Sans 12";
     font.size = 12;
     theme = {
-      package = pkgs.gnome.gnome-themes-extra;
+      package = pkgs.gnome-themes-extra;
       name = "Adwaita";
     };
 

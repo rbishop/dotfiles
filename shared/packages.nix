@@ -68,7 +68,7 @@ with pkgs; [
 
   # Fonts
   font-awesome
-  gnome.adwaita-icon-theme
+  adwaita-icon-theme
   helvetica-neue-lt-std
   liberation_ttf
   material-design-icons
@@ -83,14 +83,19 @@ with pkgs; [
   # Dev Tools
   git-absorb
   delta
-  ruby-lsp
-  crystalline
   lnav
   tmuxp
   watchman
+  bat
+  doggo
+  eza
+  fd
   inko
   zig
+  ruby-lsp
+  crystalline
   zls
+  gopls
 
   # Creature comforts
   _1password-gui
@@ -101,8 +106,8 @@ with pkgs; [
   ffmpeg
   firefox-wayland
   foliate # ePub reader
-  gnome.geary # email
-  gnome.simple-scan
+  geary # email
+  simple-scan
   grc # colorizer
   thunderbirdPackages.thunderbird-115
   libreoffice
