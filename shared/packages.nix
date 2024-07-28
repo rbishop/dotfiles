@@ -91,6 +91,7 @@ with pkgs; [
   eza
   fd
   inko
+  go
   zig
   ruby-lsp
   crystalline

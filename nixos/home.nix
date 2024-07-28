@@ -220,11 +220,14 @@ in
     ];
   };
 
-  home.file.".config/nvim/lua/ruby.lua" = {
-    source = ../packages/neovim/langs/ruby.lua;
-  };
   home.file.".config/nvim/lua/crystal.lua" = {
     source = ../packages/neovim/langs/crystal.lua;
+  };
+  home.file.".config/nvim/lua/go.lua" = {
+    source = ../packages/neovim/langs/go.lua;
+  };
+  home.file.".config/nvim/lua/ruby.lua" = {
+    source = ../packages/neovim/langs/ruby.lua;
   };
   home.file.".config/nvim/lua/zig.lua" = {
     source = ../packages/neovim/langs/zig.lua;

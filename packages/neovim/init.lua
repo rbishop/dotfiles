@@ -24,6 +24,7 @@ require ('oil').setup({})
 
 -- load language specific LSP/formatters
 require("crystal")
+require("go")
 require("ruby")
 require("zig")
 
@@ -31,7 +32,7 @@ local vim = vim
 
 vim.api.nvim_create_augroup('AutoFormatting', {})
 vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = '*.(rb|cr)',
+  pattern = '*.(cr|go|rb|zig)',
   group = 'AutoFormatting',
   callback = function()
     vim.lsp.buf.format()
