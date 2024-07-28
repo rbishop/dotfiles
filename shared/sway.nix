@@ -71,8 +71,15 @@
       bindsym XF86AudioLowerVolume exec pamixer -ud 5 && pamixer --get-volume > $SWAYSOCK.wob
       bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
 
+      bindsym XF86Tools exec swaymsg "output * dpms on"
+      bindsym XF86Launch5 exec swaymsg "output * dpms off"
+
       # Screenshots
       bindsym $mod+Ctrl+4 exec grimshot save area
+
+      # Sequential movement through workspaces
+      bindsym $mod+Tab workspace next
+      bindsym $mod+Shift+Tab workspace prev
 
       set $lock_path '~/.config/sway/lock.sh'
       set $idle_path '~/.config/sway/idle.sh'

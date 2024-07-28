@@ -41,7 +41,7 @@ let
     };
   };
 in
-{
+rec {
   imports = [
     ../shared/alacritty.nix
     ../shared/sway.nix
@@ -88,6 +88,21 @@ in
   home.file.".icons/default" = {
     source = "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ";
   };
+
+  home.file.".config/mpv/mpv.conf" = {
+    text = ''
+      vo=dmabuf-wayland
+      gpu-api=vulkan
+      ao=alsa
+      audio-device=auto
+      glsl-shader="~~home/shaders/FSR.glsl"
+      glsl-shader="~~home/shaders/CAS-scaled.glsl"
+      gpu-context=waylandvk
+      hdr-compute-peak=no
+      hwdec=auto
+    '';
+  };
+
   home.file.".config/shikane/config.toml" = {
     text = ''
       [[profile]]
@@ -359,19 +374,7 @@ in
     };
   };
 
-  programs.mpv = {
-    enable = true;
-    config = {
-      vo = "dmabuf-wayland";
-      gpu-api = "vulkan";
-      hwdec = "auto";
-      gpu-context = "waylandvk";
-      hdr-compute-peak = "no";
-      ao = "alsa";
-      audio-device = "auto";
-    };
-  };
-
+  programs.mpv.enable = true;
   programs.fzf.enable = true;
 
   home.packages = with pkgs; [
