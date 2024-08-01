@@ -48,13 +48,6 @@
         gsettings set $gnome-schema cursor-size $cursor_size
       }
 
-      # External monitor
-      output 'BNQ BenQ RD280U D4R0015401Q' mode 3840x2560@59.984Hz scale 2
-
-      # Laptop displays
-      output "BOE 0x091D Unknown" mode 1920x1080@60.002Hz scale 1.25
-      output "BOE 0x0BCA Unknown" mode 2256x1504@59.999Hz scale 1.5
-
       exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
       # Monitor brightness
@@ -71,8 +64,9 @@
       bindsym XF86AudioLowerVolume exec pamixer -ud 5 && pamixer --get-volume > $SWAYSOCK.wob
       bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
 
-      bindsym XF86Tools exec swaymsg "output * dpms on"
-      bindsym XF86Launch5 exec swaymsg "output * dpms off"
+      # Monitor on/off; usable from lock screen in case that's needed
+      bindsym --locked XF86Tools exec swaymsg "output * power on"
+      bindsym --locked XF86Launch5 exec swaymsg "output * power off"
 
       # Screenshots
       bindsym $mod+Ctrl+4 exec grimshot save area

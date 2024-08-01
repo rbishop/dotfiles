@@ -111,8 +111,8 @@ rec {
       [[profile.output]]
       search = ["m=0x091", "v=BOE"]
       enable = true
-      mode = { width = 1920, height = 1080, refresh = 60.002 }
-      position = { x = 0, y = 0 }
+      mode = "1920x1080@60.002Hz"
+      position = "0,0"
       scale = 1.25
 
       [[profile]]
@@ -121,20 +121,31 @@ rec {
       [[profile.output]]
       search = ["m=0x0BCA", "v=BOE"]
       enable = true
-      mode = { width = 2256, height = 1504, refresh = 59.999 }
-      position = { x = 0, y = 0 }
+      mode = "2256x1504@59.999Hz"
+      position = "0,0"
       scale = 1.5
 
       [[profile]]
-      name = "desktop"
+      name = "workstation"
 
       [[profile.output]]
-      search = ["m=BenQ RD280U"]
+      search = ["m=BenQ RD280U", "s=D4R0015401Q", "v=BNQ"]
       enable = true
-      mode = { width = 3840, height = 2560, refresh = 59.984 }
-      position = { x = 0, y = 0 }
+      mode = "3840x2560@59.984Hz"
+      position = "0,0"
       scale = 2.0
+      transform = "normal"
       adaptive_sync = false
+
+      [[profile]]
+      name = "docked"
+
+      [[profile.output]]
+      search = ["m=BenQ RD280U", "s=D4R0015401Q", "v=BNQ"]
+      enable = true
+      mode = "3840x2560@59.984Hz"
+      position = "0,0"
+      scale = 2.0
 
       [[profile.output]]
       search = ["n=eDP-1"]
